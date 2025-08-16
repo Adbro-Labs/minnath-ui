@@ -1,0 +1,35 @@
+<c-col xs="12">
+    <div class="action-section">
+        @if(usersService.isAdmin()){<button cButton color="primary" (click)="addBankAccount()">Add User</button>}
+    </div>
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Users</strong>
+      </c-card-header>
+      <c-card-body>
+        <table [hover]="true" cTable>
+            <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Username</th>
+            <th scope="col">Employee Type</th>
+            <th scope="col">Active</th>
+            </tr>
+            </thead>
+            <tbody>
+                @for (item of userDetails; track item) {
+                    <tr>
+                        <td>{{$index + 1}}</td>
+                        <td>{{item.name}}</td> 
+                        <td>{{item.userName}}</td>
+                        <td>{{item.userType}}</td>
+                        <td>{{item.isActive}}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+</c-col>
+<app-add-user #addUser (updated)="getAllUsers()"></app-add-user>

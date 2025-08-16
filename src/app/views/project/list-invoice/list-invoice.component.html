@@ -1,0 +1,47 @@
+<c-col xs="12">
+    <div class="action-section">
+        <button cButton color="primary" (click)="settleInvoices()">Settle Invoice</button>
+    </div>
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Invoices</strong>
+      </c-card-header>
+      <c-card-body>
+        <table [hover]="true" cTable>
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Invoice No</th>
+                <th scope="col">LPO</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for(item of invoiceList; track item) {
+                <tr>
+                    <td>{{$index+1}}</td> 
+                    <td>{{item.invoiceDate | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{item.invoiceCode}}</td>
+                    <td>{{item.lpoName}}</td>
+                    <td>{{item.invoiceAmount | number:'1.2-2'}}</td>
+                    <td>{{item.status}}</td>
+                    <td>
+                      <div style="display: flex;">
+                        <button cButton (click)="viewInvoice(item.invoiceCode)" cTooltip="Invoice"><svg cIcon name="cil-address-book" size="md"></svg></button>
+                        <button cButton (click)="viewLetterHeadInvoice(item.invoiceCode)" style="margin-left: 3px;" cTooltip="Invoice with LetterHead"><svg cIcon name="cil-browser" size="md"></svg></button>
+                        <button cButton (click)="viewTripSummary(item.invoiceCode)" style="margin-left: 3px;" cTooltip="Trip Summary"><svg cIcon name="cil-truck" size="md"></svg></button>
+                      </div>
+                      <!-- @if(item.status == 'PENDING'){ <button cButton (click)="showConfirmation(item.invoiceCode)">Mark as Paid</button>} -->
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+</c-col>
+<app-settle-invoice #settleinvoice (updated)="getAllInvoices()"></app-settle-invoice>
+<app-confirm-popup #confirmpopup (confirmUpdate)="updateInvoiceStatus('PAID', $event)"></app-confirm-popup>

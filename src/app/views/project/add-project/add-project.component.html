@@ -1,0 +1,48 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Add Project Details</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm [formGroup]="projectForm">
+            <div class="mb-3">
+              <label cLabel for="exampleFormControlInput1">Project Name</label>
+              <input cFormControl
+                     placeholder="Name of the Project"
+                     type="text"
+                     formControlName="projectName"
+              />
+            </div>
+            <div class="mb-3">
+                <label cLabel>Project Location</label>
+                <select cSelect formControlName="locationCode" placeholder="Project Location">
+                  @for(item of locationList; track item) {
+                    <option [value]="item.locationCode">{{item.locationName}}</option>
+                  }
+                </select>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Client</label>
+                <select cSelect formControlName="clientCode">
+                  @for(item of clientList; track item) {
+                    <option [value]="item.clientCode">{{item.clientName}}</option>
+                  }
+                  </select>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Project Type</label>
+                <select cSelect formControlName="projectType" placeholder="Project Type">
+                  @for(item of projectTypes; track item) {
+                    <option [value]="item.code">{{item.label}}</option>
+                  }
+                </select>
+              </div>
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Close
+      </button>
+      <button cButton color="primary" (click)="saveProject()">Save changes</button>
+    </c-modal-footer>
+  </c-modal>

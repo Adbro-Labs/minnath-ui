@@ -1,0 +1,40 @@
+<c-modal [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Add Journal Head</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm  [formGroup]="journalHeadForm" #form>
+            <div class="mb-3">
+                <label cLabel>Head Name</label>
+                <input cFormControl placeholder="Head Name" type="text" formControlName="headName"/>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Head Code</label>
+                <input cFormControl placeholder="Head Name" type="text" formControlName="headCode"/>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Parent Head</label>
+                <select cSelect  placeholder="Party" formControlName="parentHeadCode">
+                  @for(item of journalHeads; track item) {
+                    <option [value]="item.headCode">{{item.headName}}</option>
+                  }
+                  </select>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Head Category</label>
+                <select cSelect  placeholder="Party" formControlName="headCategory">
+                  @for(item of journalCategories; track item) {
+                    <option [value]="item">{{item}}</option>
+                  }
+                  </select>
+              </div>
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button type="reset" (click)="toggleLiveDemo(); form?.reset();" cButton color="secondary">
+        Close
+      </button>
+      <button type="button" cButton color="primary" (click)="saveJournalHead()">Save changes</button>
+    </c-modal-footer>
+</c-modal>

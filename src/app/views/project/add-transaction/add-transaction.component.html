@@ -1,0 +1,137 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" >
+    <c-modal-header>
+      <h5 cModalTitle>Add Transaction</h5>
+      <button (click)="closeDialog()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm [formGroup]="transactionForm" #form>
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label cLabel>LPO</label>
+                <select cSelect formControlName="lpoCode">
+                  @for(item of lpoDetails; track item) {
+                    <option [value]="item.lpoCode">{{item.lpoName}}</option>
+                  }
+                </select>
+            </div>
+            </div>
+            <div class="col">
+              <div class="mb-3">
+                <label cLabel>Transaction Type</label>
+                <select cSelect formControlName="transactionType">
+                  @for(item of transactionTypes; track item.code) {
+                    <option [value]="item.code">{{item.label}}</option>
+                  }
+                </select>
+            </div>
+            </div>
+          </div>
+          @if (transactionForm && transactionForm.get('transactionType')?.value == 'OTHER') {
+            <div class="row">
+              <div class="col">
+                <div class="mb-3">
+                  <label cLabel>Transaction Description</label>
+                  <input cFormControl placeholder="Description" type="text" formControlName="transactionDescription"/>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label cLabel>Unit</label>
+                  <input cFormControl placeholder="Unit" type="text" formControlName="unitDescription"/>
+                </div>
+              </div>
+            </div>
+          }
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label cLabel>Unit Price</label>
+                <input cFormControl placeholder="Amount" type="number" formControlName="unitPrice"/>
+              </div>
+            </div>
+            <div class="col">
+              <div class="mb-3">
+                <label cLabel>Quantity</label>
+                <input cFormControl placeholder="Gallon" type="number" formControlName="quantity"/>
+              </div>
+            </div>
+          </div>
+           <div class="row">
+              <div class="col">
+                <div class="mb-3">
+                  <label cLabel>Amount</label>
+                  <input cFormControl placeholder="Amount" type="number" formControlName="amount"/>
+              </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label cLabel>Vehicle</label>
+                  <select cSelect formControlName="vehicleCode">
+                    <option [value]="'OTHER'">Other</option>
+                    @for(item of vehicleList; track item) {
+                      <option [value]="item.vehicleCode">{{item.RegistrationNumber}}</option>
+                    }
+                  </select>
+                </div>
+              </div>
+           </div>
+           @if(transactionForm.get('vehicleCode')?.value == 'OTHER') {<div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label>Vehicle Number</label>
+                <input cFormControl placeholder="Vehicle Number" type="text" formControlName="vehicleNumber"/>
+              </div>
+            </div>
+            <div class="col">
+              <div class="mb-3"></div>
+            </div>
+           </div>}
+           <div class="row">
+              <div class="col">
+                <div class="mb-3">
+                  <label cLabel>Delivery Note Number</label>
+                  <input cFormControl placeholder="Delivery Note Number" type="text" formControlName="deliveryNoteNumber"/>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label cLabel>Transaction Date
+                  </label>
+                  <input cFormControl placeholder="Transaction Date" type="date" formControlName="transactionDate"/>
+                </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                <div class="mb-3">
+                  <c-form-check>
+                    <input cFormCheckInput id="checkOne" type="checkbox" formControlName="hideInTripSummary"/>
+                    <label cFormCheckLabel for="checkOne">Hide in Summary Report</label>
+                  </c-form-check>
+                </div>
+              </div>
+            </div>
+
+           <!-- <div class="row">
+              
+              <div class="col">
+              </div>
+           </div> -->
+            @if(warningMessage) {<p 
+            style="text-align: center;
+            font-size: 20px;
+            font-weight: 800;
+            color: #e05a31;">{{warningMessage}}</p>}
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="closeDialog()" cButton color="secondary">
+        Close
+      </button>
+      <button cButton [color]="warningMessage ? 'danger': 'primary'" (click)="addTransaction()"
+      [disabled]="transactionForm.invalid">
+        {{warningMessage ? 'Confirm': 'Save Changes'}}
+      </button>
+    </c-modal-footer>
+  </c-modal>

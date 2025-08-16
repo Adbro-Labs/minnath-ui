@@ -1,0 +1,52 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Add Client Details</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm (ngSubmit)="saveVehicle()" [formGroup]="vehicleForm" #form>
+            <div class="mb-3">
+              <label cLabel for="exampleFormControlInput1">Name</label>
+              <input cFormControl
+                     placeholder="Name of the Vehicle"
+                     type="text"
+                     formControlName="vehicleName"
+              />
+            </div>
+            <div class="mb-3">
+                <label cLabel>Vehicle Number</label>
+                <input cFormControl placeholder="Vehicle Number" type="text" formControlName="vehicleNumber"/>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Vehicle Type</label>
+                <select cSelect formControlName="vehicleType" placeholder="Type of Vehicle">
+                    @for(item of vehicleTypes; track item) {
+                      <option [value]="item.typeCode">{{item.vehicleType}}</option>
+                    }
+                    </select>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Owner Name</label>
+                <input cFormControl placeholder="Owner Name" type="text" formControlName="ownerName"/>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Tank Capacity</label>
+                <input cFormControl placeholder="Tank Capacity" type="number" formControlName="capacity"/>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Registration Number</label>
+                <input cFormControl placeholder="Registration Number" type="text" formControlName="RegistrationNumber"/>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Registration Expiry</label>
+                <input cFormControl placeholder="Contact Number of PIC" type="date" formControlName="expiryDate"/>
+              </div>
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Close
+      </button>
+      <button cButton color="primary" (click)="saveVehicle()">Save changes</button>
+    </c-modal-footer>
+  </c-modal>

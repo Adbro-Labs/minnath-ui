@@ -1,0 +1,73 @@
+<c-col xs="12">
+    <div class="action-section">
+        <!-- <button cButton color="primary" (click)="addprojects()">Generate Invoice</button> -->
+    </div>
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Account Statement</strong>
+      </c-card-header>
+      <c-card-body>
+        <div class="row">
+            <div class="col">
+                <div class="mb-6">
+                    <label cLabel>Client</label>
+                    <select cSelect [(ngModel)]="clientCode" (change)="getProjectByClient()">
+                        @for(item of clientList; track item) {
+                            <option [value]="item?.clientCode">{{item?.clientName}}</option>
+                          }
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-6">
+                    <label cLabel>Project</label>
+                    <select cSelect [(ngModel)]="projectCode">
+                        <option [value]="null">All</option>
+                        @for(item of projectList; track item) {
+                            <option [value]="item?.projectCode">{{item?.projectName}}</option>
+                          }
+                    </select>
+                </div>
+            </div>
+            <div class="col" style="align-items: center;display: flex; margin-top: 30px;">
+                <button cButton color="primary" (click)="getPendingInvoices()">View</button>
+            </div>
+        </div>
+         @if (invoiceList?.length){<div class="col" style="align-items: center;display: flex; margin-top: 30px;">
+                <button cButton color="primary" (click)="generateStatement()">Generate Pdf</button>
+            </div>}
+        <table [hover]="true" cTable>
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Invoice No</th>
+                <th scope="col">Description</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Paid</th>
+                <th scope="col">Balance</th>
+                <th scope="col">Total</th>
+                <th scope="col">Days Old</th>
+                <th scope="col">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+                @for(item of invoiceList; track item; let i = $index) {
+                    <tr>
+                        <td>{{i+1}}</td>
+                        <td>{{(item.invoiceDate) | date:'yyyy-MM-dd'}}</td>
+                        <td>{{item.invoiceCode}}</td>
+                        <td>{{item.projectName}}</td>
+                        <td>{{item.amount}}</td>
+                        <td>{{item.partialPayment}}</td>
+                        <td>{{item.total}}</td>
+                        <td>{{item.lineTotal}}</td>
+                        <td>{{item.dayDifference}}</td>
+                        <td>{{item.status}}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+</c-col>

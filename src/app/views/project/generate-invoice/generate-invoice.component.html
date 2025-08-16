@@ -1,0 +1,104 @@
+<c-modal
+  id="liveDemoModal"
+  [visible]="visible"
+  (visibleChange)="handleLiveDemoChange($event)"
+  size="lg"
+>
+  <c-modal-header>
+    <h5 cModalTitle>Generate Invoice</h5>
+    <button (click)="closeDialog()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm [formGroup]="invoiceForm">
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label cLabel>LPO</label>
+            <select cSelect formControlName="lpoCode">
+              @for(item of lpoList; track item) {
+              <option [value]="item.lpoCode">{{ item.lpoName }}</option>
+              }
+            </select>
+          </div>
+          <div class="mb-3">
+            <label cLabel>From</label>
+            <input
+              formControlName="fromDate"
+              cFormControl
+              placeholder="From Date"
+              type="date"
+            />
+          </div>
+          <div class="mb-3">
+            <label cLabel>To</label>
+            <input
+              formControlName="toDate"
+              [min]="minDate"
+              cFormControl
+              placeholder="To Date"
+              type="date"
+            />
+          </div>
+          <div class="mb-3">
+            <label cLabel>Invoice Date</label>
+            <input
+              formControlName="invoiceDate"
+              cFormControl
+              placeholder="Invoice Date"
+              type="date"
+            />
+          </div>
+          <div class="mb-3">
+            <label cLabel>Invoice Number(Custom)</label>
+            <input
+              formControlName="invoiceNumber"
+              cFormControl
+              placeholder="Invoice Number"
+              type="number"
+            />
+          </div>
+        </div>
+        <div class="col" style="border-left: solid 1px #ccc">
+          <div class="mb-3" style="height: 100%;">
+            <table style="height: 100%;">
+              <tbody>
+                <tr class="row-10">
+                  <td style="width: 120px;">Invoice Code</td>
+                  <td>{{invoiceCode}}</td>
+                </tr>
+                <tr class="row-10">
+                  <td style="width: 120px;">Total Trips</td>
+                  <td>{{totalTrips}}</td>
+                </tr>
+                <tr class="row-70">
+                  <td style="width: 120px;">Delivery Notes</td>
+                  <td style="max-width: 242px;word-wrap: break-word;">{{delveryNotes}}</td>
+                </tr>
+                <tr class="row-10">
+                  <td style="width: 120px;">Total Amount</td>
+                  <td>{{totalAmount}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </form>
+    @if(errorMessage) {
+    <p style="color: red; margin: 0px; font-weight: 600; text-align: center">
+      {{ errorMessage }}
+    </p>
+    }
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="closeDialog()" cButton color="secondary">Close</button>
+    <button
+      cButton
+      color="primary"
+      (click)="generateInvoice()"
+      [disabled]="invoiceForm.invalid"
+    >
+      {{ invoiceConfirmed ? buttonLabel : reviewLabel }}
+    </button>
+  </c-modal-footer>
+</c-modal>

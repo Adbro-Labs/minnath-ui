@@ -1,0 +1,56 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Add Journal Event</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm  [formGroup]="journalEventForm" #form>
+            <div class="mb-3">
+                <label cLabel>Description</label>
+                <input cFormControl placeholder="Description" type="text" 
+                formControlName="eventDescription"/>
+              </div>
+            <div class="mb-3">
+                <label cLabel>Journal Head</label>
+                <select cSelect  placeholder="Party" formControlName="headCode">
+                  @for(item of journalHeadList; track item) {
+                    <option [value]="item.headCode">{{item.headName}}</option>
+                  }
+                  </select>
+              </div>
+              
+              <div class="mb-3">
+                <label cLabel>Head Category</label>
+                <select cSelect  placeholder="Category" formControlName="headCategory">
+                    @for(item of journalCategories; track item) {
+                        <option [value]="item">{{item}}</option>
+                      }
+                </select>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Opposite Head</label>
+                <select cSelect  placeholder="Party" formControlName="oppositeHeadCode">
+                  @for(item of journalHeadList; track item) {
+                    <option [value]="item.headCode">{{item.headName}}</option>
+                  }
+                  </select>
+              </div>
+              
+              <div class="mb-3">
+                <label cLabel>Transaction type</label>
+                <select cSelect  placeholder="Transaction type" formControlName="transactionType">
+                    <option value="DEBIT">Debit</option>
+                    <option value="CREDIT">Credit</option>
+                </select>
+              </div>
+
+
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Close
+      </button>
+      <button cButton color="primary" (click)="saveJournalEvent()">Save changes</button>
+    </c-modal-footer>
+  </c-modal>

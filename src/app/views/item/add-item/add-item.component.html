@@ -1,0 +1,40 @@
+<c-card class="mb-4">
+  <c-card-header>
+    <strong>Add Item</strong>
+  </c-card-header>
+  <c-card-body>
+    <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+      
+      <div class="mb-3">
+        <label cLabel for="name">Item Name</label>
+        <input
+          cInput
+          id="name"
+          formControlName="name"
+          placeholder="Enter item name"
+          [class.is-invalid]="itemForm.get('name')?.invalid && itemForm.get('name')?.touched"
+        />
+        <div class="invalid-feedback" *ngIf="itemForm.get('name')?.invalid && itemForm.get('name')?.touched">
+          Item name is required.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label cLabel for="description">Description</label>
+        <input
+          cInput
+          id="description"
+          formControlName="description"
+          placeholder="Enter description"
+        />
+      </div>
+
+      <button cButton color="primary" type="submit" [disabled]="itemForm.invalid">
+        Save Item
+      </button>
+    </form>
+
+    <div class="mt-3 text-success" *ngIf="successMessage">{{ successMessage }}</div>
+    <div class="mt-3 text-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+  </c-card-body>
+</c-card>

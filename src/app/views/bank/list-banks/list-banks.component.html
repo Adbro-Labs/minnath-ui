@@ -1,0 +1,37 @@
+<c-col xs="12">
+    <div class="action-section">
+        <button cButton color="primary" (click)="addBankAccount()">Add Bank</button>
+    </div>
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Bank Accounts</strong>
+      </c-card-header>
+      <c-card-body>
+        <table [hover]="true" cTable>
+            <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Account Number</th>
+            <th scope="col">Current Balance</th>
+            <th scope="col">Account Holder</th>
+            <th scope="col">Branch</th>
+            </tr>
+            </thead>
+            <tbody>
+                @for (item of bankDetails; track item) {
+                    <tr>
+                        <td>{{$index + 1}}</td>
+                        <td>{{item.bankName}}</td> 
+                        <td>{{item.bankAccountNumber}}</td>
+                        <td>{{item.currentBalance}}</td>
+                        <td>{{item.accountHolderName}}</td>
+                        <td>{{item.locationName}}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+</c-col>
+<app-add-bank #addbank (updated)="getAllBanks()"></app-add-bank>

@@ -1,0 +1,46 @@
+<c-col xs="12">
+    <div class="action-section">
+        <button cButton color="primary" (click)="createStatement()">Create Statement</button>
+    </div>
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Account Statement</strong>
+      </c-card-header>
+      <c-card-body>
+        <table [hover]="true" cTable>
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Statement No</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for(item of statementList; track item) {
+                <tr>
+                    <td>{{$index+1}}</td> 
+                    <td>{{item.statementDate | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{item.statementCode}}</td>
+                    <td>
+                      <div style="display: flex;">
+                        <button cButton (click)="viewInvoice(item.statementCode)" cTooltip="Invoice"><svg cIcon name="cil-address-book" size="md"></svg></button>
+                        <button cButton (click)="viewLetterHeadInvoice(item.statementCode)" style="margin-left: 3px;" cTooltip="Invoice with LetterHead"><svg cIcon name="cil-browser" size="md"></svg></button>
+                      </div>
+
+                    </td>
+                </tr>
+            }
+            </tbody>
+            <c-pagination aria-label="Page navigation example">
+                <li cPageItem [disabled]="index < 1" (click)="paginate(-1)" style="cursor: pointer;">
+                    <span cPageLink>Previous</span>
+                </li>
+                <li cPageItem (click)="paginate(1)" style="cursor: pointer;" [disabled]="!statementList.length">
+                    <a cPageLink>Next</a>
+                </li>
+            </c-pagination>
+        </table>
+      </c-card-body>
+    </c-card>
+</c-col>

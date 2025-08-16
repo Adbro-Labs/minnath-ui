@@ -1,0 +1,50 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Invoice Settlement</h5>
+      <button (click)="cancelSettlement()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form [formGroup]="settlementForm">
+            <div class="mb-3">
+                <label cLabel>Client</label>
+                <select cSelect formControlName="clientId">
+                    @for(item of clientList; track item) {
+                        <option [value]="item?.clientCode">{{item?.clientName}}</option>
+                      }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label cLabel for="exampleFormControlInput1">Amount</label>
+                <input cFormControl
+                       placeholder="Payment Amount"
+                       type="number"
+                    formControlName="amount"  
+                />
+                @if(partialPayment){(Prev Bal: {{partialPayment}})}
+                @if(partialPayment && settlementForm.get('amount')?.value){(Total Amount: {{partialPayment + settlementForm.get('amount')?.value}})}
+            </div>
+            <div class="mb-3">
+                <label cLabel for="exampleFormControlInput1">Invoices - Total Amount: {{totalAmount}}</label>
+                <ul>
+                    @for(item of pendingInvoiceList; track item.invoiceCode){<li style="list-style: none;"><c-form-check style="margin-right: 5px;">
+                        <input cFormCheckInput id="checkOne" type="checkbox" (change)="calculateTotalAmount(item, $event)"/>
+                      </c-form-check><span>{{item.invoiceCode}} - {{item.invoiceAmount?.toFixed(2)}}</span></li>}
+                </ul>
+            </div>
+            <div class="mb-3">
+                <label cLabel for="exampleFormControlInput1">Description</label>
+                <input cFormControl
+                       placeholder="Journal entry description"
+                       type="text"
+                    formControlName="description"  
+                />
+            </div>
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+        <button (click)="cancelSettlement()" cButton color="secondary">
+            Close
+          </button>
+          <button (click)="settleInvoice()" cButton color="primary" [disabled]="settlementForm.invalid">Settle</button>
+    </c-modal-footer>
+</c-modal>

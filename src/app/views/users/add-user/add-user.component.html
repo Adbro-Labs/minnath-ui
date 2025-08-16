@@ -1,0 +1,49 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Add User Details</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm (ngSubmit)="saveUser()" [formGroup]="userForm" #form>
+            <div class="mb-3">
+              <label cLabel for="exampleFormControlInput1">Name</label>
+              <input cFormControl
+                     placeholder="Name of the User"
+                     type="text"
+                     formControlName="name"
+              />
+            </div>
+            <div class="mb-3">
+              <label cLabel for="exampleFormControlInput1">Username</label>
+              <input cFormControl
+                     placeholder="Username"
+                     type="text"
+                     formControlName="userName"
+              />
+            </div>
+            
+            <div class="mb-3">
+                <label cLabel for="exampleFormControlInput1">Password</label>
+                <input cFormControl
+                       placeholder="Password"
+                       type="password"
+                       formControlName="password"
+                />
+              </div>
+            <div class="mb-3">
+                <label cLabel>User Type</label>
+                <select cSelect formControlName="userType">
+                  @for(item of userTypes; track item) {
+                    <option [value]="item">{{item}}</option>
+                  }
+                </select>
+              </div>
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Close
+      </button>
+      <button cButton color="primary" (click)="saveUser()">Save changes</button>
+    </c-modal-footer>
+  </c-modal>

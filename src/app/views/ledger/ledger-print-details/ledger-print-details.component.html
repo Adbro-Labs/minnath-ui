@@ -1,0 +1,32 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Add Report Details</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm [formGroup]="printForm" #form>
+            <div class="mb-3">
+              <label cLabel for="exampleFormControlInput1">Title</label>
+              <input cFormControl
+                     placeholder="Title"
+                     type="text"
+                     formControlName="title"
+              />
+            </div>
+            <div class="mb-3">
+                <label cLabel for="exampleFormControlInput1">Note</label>
+                <input cFormControl
+                       placeholder="Note"
+                       type="text"
+                       formControlName="note"
+                />
+              </div>
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Close
+      </button>
+      <button cButton color="primary" (click)="confirmPrint()" [disabled]="printForm.invalid">Confirm</button>
+    </c-modal-footer>
+  </c-modal>

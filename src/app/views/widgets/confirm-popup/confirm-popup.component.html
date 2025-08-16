@@ -1,0 +1,15 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Are you sure?</h5>
+      <button (click)="closeDialog()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <p>This action will reflect in both invoice and accounts</p>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="closeDialog()" cButton color="secondary">
+        Close
+      </button>
+      <button cButton color="primary" (click)="confirmAction()">Confirm</button>
+    </c-modal-footer>
+</c-modal>

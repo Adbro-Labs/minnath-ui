@@ -1,0 +1,83 @@
+
+<c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-body>
+        <c-row class="g-3">
+            <c-col [sm]="3">
+                <div class="mb-3">
+                    <label cLabel>Year</label>
+                    <select cSelect [(ngModel)]="year">
+                      @for(item of yearList; track item) {
+                        <option [value]="item">{{item}}</option>
+                      }
+                    </select>
+                  </div>
+            </c-col>
+            <c-col [sm]="3">
+                <div class="mb-3">
+                    <label cLabel>Month</label>
+                    <select cSelect [(ngModel)]="month">
+                      @for(item of monthList; track item; let i = $index) {
+                        <option [value]="i">{{item}}</option>
+                      }
+                    </select>
+                  </div>
+            </c-col>
+            <c-col [sm]="3">
+                <div class="mb-3">
+                    <label cLabel>Account</label>
+                    <select cSelect [(ngModel)]="selectedAccount">
+                      @for(item of journalHeadList; track item) {
+                        <option [value]="item.headCode">{{item.headName}}</option>
+                      }
+                    </select>
+                  </div>
+            </c-col>
+            <c-col [sm]="3" style="display: flex; align-items: flex-end;">
+                <div class="mb-3">
+                    <button type="button" cButton color="primary" (click)="getLedgerList()">Search</button>
+                </div>
+            </c-col>
+          </c-row>
+      </c-card-body>
+    </c-card>
+</c-col>
+<c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <div class="div" style="display: flex;justify-content: space-between;">
+          <span>Ledger</span>
+          <div>
+              <button cButton (click)="initiateLedgerPrint()" [disabled]="ledgerList.length < 1">Print</button>
+          </div>
+      </div>
+      </c-card-header>
+      <c-card-body>
+        <table [hover]="true" cTable>
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Description</th>
+                <th scope="col">Debit</th>
+                <th scope="col">Credit</th>
+                <th scope="col">Balance</th>
+            </tr>
+            </thead>
+            <tbody>
+                @for(item of ledgerList; track item) {
+                    <tr>
+                        <td>{{$index+1}}</td>
+                        <td>{{item.journalDate | date: 'dd/MM/yyyy hh:mm:ss a'}}</td>
+                        <td>{{item.journalDescription}}</td>
+                        <td>{{item.debitAmount}}</td>
+                        <td>{{item.creditAmount}}</td>
+                        <td>{{item.balance}}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+</c-col>
+<app-ledger-print-details #ledgerPrinter (updated)="initiatePrint($event)"></app-ledger-print-details>

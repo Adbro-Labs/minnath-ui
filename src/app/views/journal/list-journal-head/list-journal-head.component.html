@@ -1,0 +1,35 @@
+<c-col xs="12">
+    <div class="action-section">
+        <button cButton color="primary" (click)="addJournalHeadDetails()">Add Journal Head</button>
+    </div>
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Journal Heads</strong>
+      </c-card-header>
+      <c-card-body>
+        <table [hover]="true" cTable>
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Head Name</th>
+                    <th scope="col">Head Code</th>
+                    <th scope="col">Parent Head</th>
+                    <th scope="col">Head Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(item of journalHeadList; track item) {
+                    <tr>
+                        <td>{{$index+1}}</td>
+                        <td>{{item.headName}}</td>
+                        <td>{{item.headCode}}</td>
+                        <td>{{item.parentHeadName}}</td>
+                        <td>{{item.headCategory}}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+</c-col>
+<app-add-journal-head #addjournalhead (updated)="getAllJournalHeads()"></app-add-journal-head>

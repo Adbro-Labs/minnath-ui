@@ -1,0 +1,42 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Add Journal Entry</h5>
+      <button (click)="toggleLiveDemo(); form?.reset();" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm  [formGroup]="journalForm" #form>
+            <div class="mb-3">
+                <label cLabel>Event</label>
+                <select cSelect  placeholder="Party" formControlName="journalEventCode">
+                  @for(item of journalEvents; track item) {
+                    <option [value]="item.eventCode">{{item.eventDescription}}</option>
+                  }
+                  </select>
+              </div>
+                @if(tempJournalHeadList && tempJournalHeadList.length > 0) {
+                  <div class="mb-3">
+                    <label cLabel>Account Head</label>
+                    <select cSelect  placeholder="Party" formControlName="journalHeadCode">
+                      @for(item of tempJournalHeadList; track item) {
+                        <option [value]="item.headCode">{{item.headName}}</option>
+                      }
+                      </select>
+                  </div>
+                }
+              <div class="mb-3">
+                <label cLabel>Description</label>
+                <input cFormControl placeholder="Description" type="text" formControlName="journalDescription"/>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Amount</label>
+                <input cFormControl placeholder="eg: 88754" type="number" formControlName="amount" />
+              </div>
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo(); form?.reset();" cButton color="secondary">
+        Close
+      </button>
+      <button cButton color="primary" (click)="saveJournal()">Save changes</button>
+    </c-modal-footer>
+  </c-modal>

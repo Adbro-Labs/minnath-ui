@@ -1,0 +1,56 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Add Bank Details</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm (ngSubmit)="saveBank()" [formGroup]="bankForm" #form>
+            <div class="mb-3">
+              <label cLabel for="exampleFormControlInput1">Name</label>
+              <input cFormControl
+                     placeholder="Name of the bank"
+                     type="text"
+                     formControlName="bankName"
+              />
+            </div>
+            <div class="mb-3">
+              <label cLabel for="exampleFormControlInput1">Account Number</label>
+              <input cFormControl
+                     placeholder="Account Number"
+                     type="text"
+                     formControlName="bankAccountNumber"
+              />
+            </div>
+            <div class="mb-3">
+                <label cLabel>Branch Location</label>
+                <select cSelect formControlName="branchLocation">
+                  @for(item of locationList; track item) {
+                    <option [value]="item.locationCode">{{item.locationName}}</option>
+                  }
+                </select>
+              </div>
+              <div class="mb-3">
+                <label cLabel for="exampleFormControlInput1">Account IBAN</label>
+                <input cFormControl
+                       placeholder="Account Number"
+                       type="text"
+                       formControlName="accountIBAN"
+                />
+              </div>
+              <div class="mb-3">
+                <label cLabel>Current Balance</label>
+                <input cFormControl placeholder="eg: 88754" type="number" formControlName="currentBalance"/>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Account Holder</label>
+                <input cFormControl placeholder="Name of the account holder" type="text" formControlName="accountHolderName"/>
+              </div>
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Close
+      </button>
+      <button cButton color="primary" (click)="saveBank()">Save changes</button>
+    </c-modal-footer>
+  </c-modal>

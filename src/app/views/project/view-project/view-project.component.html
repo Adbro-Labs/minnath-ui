@@ -1,0 +1,118 @@
+<c-card>
+  <c-card-header>
+    <div class="div" style="display: flex; justify-content: space-between">
+      <span>Project Details</span>
+      <div>
+        <button cButton (click)="initiateInvoiceGeneration()">
+          Generate Invoice
+        </button>
+      </div>
+    </div>
+  </c-card-header>
+  <c-card-body>
+    <h5 cCardTitle>{{ projectDetails?.projectName }}</h5>
+    <p cCardText>Client: {{ projectDetails?.clientName }}</p>
+    <p cCardText>Location: {{ projectDetails?.locationName }}</p>
+    <p cCardText>Balance: {{ projectDetails?.currentBalance }}</p>
+  </c-card-body>
+</c-card>
+<br />
+<c-col xs="12">
+  <c-card class="mb-4">
+    <c-card-header>
+      <div class="div" style="display: flex; justify-content: space-between">
+        <span>LPO Details</span>
+        <button cButton (click)="addLPO()">Add LPO</button>
+      </div>
+    </c-card-header>
+    <c-card-body>
+      <table [hover]="true" cTable>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Current Limit</th>
+            <th scope="col">Limit</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(item of lpoDetails; track item.lpoCode) {
+          <tr>
+            <td>{{ $index + 1 }}</td>
+            <td>{{ item.lpoName }}</td>
+            <td>{{ item.lpoType }}</td>
+            <td>{{ item.currentLimit }}</td>
+            <td>{{ item.limit }}</td>
+            <td>{{ (item.currentLimit > 0 || item.lpoType == 'MANUAL') ? "ACTIVE" : "INACTIVE" }}</td>
+            <td>
+              @if (item.lpoFileName) {<button cButton (click)="viewLpoFile(item.lpoFileName)">LPO File</button>}
+              <button style="margin-left: 5px;" cButton (click)="editLPO(item)">Edit</button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </c-card-body>
+  </c-card>
+</c-col>
+<br />
+<c-col xs="12">
+  <c-card class="mb-4">
+    <c-card-header>
+      <div class="div" style="display: flex; justify-content: space-between">
+        <span>Transactions</span>
+        <div>
+          <button cButton (click)="addTransactionDetails()">
+            Add Transaction
+          </button>
+        </div>
+      </div>
+    </c-card-header>
+    <c-card-body>
+      <table [hover]="true" cTable>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">Vehicle</th>
+            <th scope="col">Transaction Type</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Delivery Note</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(item of projectTransactions; track item) {
+          <tr>
+            <td>{{ $index + 1 }}</td>
+            <td>{{ item.transactionDate}}</td>
+            <td>{{ item.vehicleNumber }}</td>
+            @if (item.transactionType == 'OTHER') {<td>{{item.transactionDescription}}</td>}
+            @else{<td>{{ transactionTypes[item.transactionType]}}</td>}
+            <td>{{ item.amount }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.deliveryNoteNumber }}</td>
+            <td>
+              <button cButton color="secondary" shape="rounded-pill" (click)="editTransaction(item)">Edit</button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </c-card-body>
+  </c-card>
+</c-col>
+<app-add-lpo #addlpo (updated)="getLPODetails()"></app-add-lpo>
+<app-add-transaction
+  #addtransaction
+  (updated)="ngOnInit()"
+></app-add-transaction>
+<app-generate-invoice
+  #generateInvoice
+  (updated)="generateProjectSummary($event)"
+></app-generate-invoice>
+<app-manual-invoice #manualInvoice></app-manual-invoice>

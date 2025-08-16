@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greenshore Services</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .header, .footer {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            max-width: 150px;
+        }
+        .details, .invoice-table, .bank-details {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .details td {
+            padding: 5px;
+        }
+        .invoice-table, .bank-details {
+            border-collapse: collapse;
+        }
+        .invoice-table th, .invoice-table td, .bank-details td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+        .invoice-table th {
+            background-color: #f4f4f4;
+        }
+        .footer {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>GREEN SHORE SERVICES</h1>
+        <p>
+            Phone: +974 44323026 | +974 7477 2268 | +974 7005 2268<br>
+            Email: info@greenshoreqa.com | sales@greenshoreqa.com<br>
+            P.O. Box: 40897, Doha, Qatar
+        </p>
+    </div>
+
+    <table class="details" id="projectDetails">
+        <tr>
+            <td><strong>TO:</strong>[CLIENT_NAME]</td>
+            <td><strong>Attn:</strong>[PROJECT_PERSON]</td>
+        </tr>
+        <tr>
+            <td>Mob: [CONTACT_NUMBER]</td>
+        </tr>
+        <tr>
+            <td><strong>Project:</strong>[PROJECT_NAME]</td>
+            <td><strong>Customer PO:</strong>NFXP 15052022-0601</td>
+        </tr>
+        <tr>
+            <td><strong>Payment Terms:</strong> 30 Days</td>
+        </tr>
+    </table>
+
+    <table class="invoice-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Description</th>
+                <th>Unit</th>
+                <th>Qty</th>
+                <th>Unit Price</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            [WORK_SUMMARY]
+        </tbody>
+    </table>
+
+    <p id="amountInWords"><strong>Amount in Words:</strong> [TOTAL_DESCRIPTION]</p>
+
+    <table class="bank-details" id="bankDetails">
+        <tr>
+            <td><strong>BANK ACCOUNT:</strong> [BANK_ACCOUNT_NUMBER]</td>
+        </tr>
+        <tr>
+            <td>[BANK_BRANCH]</td>
+        </tr>
+        <tr>
+            <td>IBAN: [BANK_IBAN]</td>
+        </tr>
+    </table>
+
+    <div class="footer">
+        <p>For GREEN SHORE SERVICES W.L.L</p>
+        <p>Thank you!</p>
+    </div>
+</body>
+</html>

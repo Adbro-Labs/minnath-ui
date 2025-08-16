@@ -1,0 +1,35 @@
+<c-col xs="12">
+    <div class="action-section">
+        <button cButton color="primary" (click)="addJournalEventDetails()">Add Journal Event</button>
+    </div>
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Journal Events</strong>
+      </c-card-header>
+      <c-card-body>
+        <table [hover]="true" cTable>
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Event</th>
+                <th scope="col">Journal Head</th>
+                <th scope="col">Category</th>
+                <th scope="col">Transaction Type</th>
+            </tr>
+            </thead>
+            <tbody>
+                @for(item of journalEvents; track item) {
+                    <tr>
+                        <td>{{$index+1}}</td>
+                        <td>{{item.eventDescription}}</td>
+                        <td>{{item.headName}}</td>                        
+                        <td>{{item.headCategory}}</td>
+                        <td>{{item.transactionType}}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+</c-col>
+<app-add-journal-event #addJournalevent (updated)="getAllJournalEvents()"></app-add-journal-event>

@@ -1,0 +1,24 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Add Location</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm (ngSubmit)="saveLocation()" [formGroup]="locationForm" #form>
+            <div class="mb-3">
+              <label cLabel for="exampleFormControlInput1">Name</label>
+              <input cFormControl
+                     placeholder="Name of the Location"
+                     type="text"
+                     formControlName="locationName"
+              />
+            </div>
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Close
+      </button>
+      <button cButton color="primary" (click)="saveLocation()">Save changes</button>
+    </c-modal-footer>
+  </c-modal>

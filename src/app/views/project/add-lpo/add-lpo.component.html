@@ -1,0 +1,52 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Add LPO Details</h5>
+      <button (click)="closeDialog()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm [formGroup]="lpoForm">
+            <div class="mb-3">
+              <label cLabel for="exampleFormControlInput1">LPO Name</label>
+              <input cFormControl
+                     placeholder="Name of the LPO"
+                     type="text"
+                     formControlName="lpoName"
+              />
+            </div>
+            <div class="mb-3">
+                <label cLabel>LPO Type</label>
+                <select cSelect formControlName="lpoType">
+                  @for(item of lpoType; track item.type) {
+                    <option [value]="item.type">{{item.label}}</option>
+                  }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label cLabel>Limit</label>
+                <input cFormControl placeholder="Limit" type="number" formControlName="limit"/>
+            </div>
+            <div class="mb-3">
+                <label cLabel>Unit Price</label>
+                <input cFormControl placeholder="Unit Price" type="number" formControlName="unitPrice"/>
+            </div>
+            <div class="mb-3">
+              <label cLabel>Payment Term</label>
+              <input cFormControl placeholder="Payment Term" type="text" formControlName="paymentIn"/>
+          </div>
+          <div class="mb-3">
+            <label cLabel>Customer PO Number</label>
+            <input cFormControl placeholder="Customer Purchase Order Number" type="text" formControlName="customerPONumber"/>
+          </div>
+          <div class="mb-3">
+            <label cLabel>LPO file</label>
+            <input #fileuploader type="file" id="file" (change)="onFileSelected($event)" />
+        </div>
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="closeDialog()" cButton color="secondary">
+        Close
+      </button>
+      <button [disabled]="disableSave" cButton color="primary" (click)="saveLPO()" [disabled]="lpoForm.invalid">Save changes</button>
+    </c-modal-footer>
+  </c-modal>

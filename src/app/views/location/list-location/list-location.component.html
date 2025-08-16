@@ -1,0 +1,31 @@
+<c-col xs="12">
+    <div class="action-section">
+        <button cButton color="primary" (click)="addBankAccount()">Add Location</button>
+    </div>
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Locations</strong>
+      </c-card-header>
+      <c-card-body>
+        <table [hover]="true" cTable>
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Active</th>
+            </tr>
+            </thead>
+            <tbody>
+                @for (item of locationDetails; track item) {
+                    <tr>
+                        <td>{{$index + 1}}</td>
+                        <td>{{item.locationName}}</td>
+                        <td>{{item.isActive}}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+</c-col>
+<app-add-location #addlocation (updated)="getAllLocations()"></app-add-location>

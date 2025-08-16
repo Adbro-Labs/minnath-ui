@@ -1,0 +1,66 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Add Client Details</h5>
+      <button (click)="toggleLiveDemo()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm (ngSubmit)="saveClient()" [formGroup]="clientForm" #form>
+            <div class="mb-3">
+              <label cLabel for="exampleFormControlInput1">Name</label>
+              <input cFormControl
+                     placeholder="Name of the client"
+                     type="text"
+                     formControlName="clientName"
+              />
+            </div>
+            <div class="mb-3">
+                <label cLabel>Location</label>
+                <select cSelect formControlName="locationCode"  placeholder="Location">
+                  @for(item of locationList; track item) {
+                    <option [value]="item.locationCode">{{item.locationName}}</option>
+                  }
+                  </select>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Bank</label>
+                <select cSelect formControlName="bankCode"  placeholder="Select Bank">
+                  @for(item of bankList; track item) {
+                    <option [value]="item.bankCode">{{item.bankName}}</option>
+                  }
+                  </select>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Current Balance</label>
+                <input cFormControl placeholder="eg: 88754" type="number" formControlName="currentBalance"/>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Credit Limit</label>
+                <input cFormControl placeholder="eg: 88754" type="number" formControlName="creditLimit"/>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Invoice Code</label>
+                <input cFormControl placeholder="code in invoice" type="text"
+                formControlName="invoiceCode"/>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Customer Number</label>
+                <input cFormControl placeholder="Customer number in invoice/statement" type="text"
+                formControlName="clientRollCode"/>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Contact Person</label>
+                <input cFormControl placeholder="Name of the Person In Charge" type="text" formControlName="contactPersonName"/>
+              </div>
+              <div class="mb-3">
+                <label cLabel>Contact Number</label>
+                <input cFormControl placeholder="Contact Number of PIC" type="text" formControlName="contactNumber"/>
+              </div>
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="toggleLiveDemo()" cButton color="secondary">
+        Close
+      </button>
+      <button cButton color="primary" (click)="saveClient()">Save changes</button>
+    </c-modal-footer>
+  </c-modal>

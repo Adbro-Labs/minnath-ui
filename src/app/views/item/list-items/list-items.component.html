@@ -1,0 +1,46 @@
+<c-card class="mb-4">
+  <c-card-header class="d-flex justify-content-between align-items-center">
+    <strong>Items & Variants</strong>
+    <button cButton color="primary" (click)="goToAddItem()">+ Add Item</button>
+  </c-card-header>
+
+  <c-card-body>
+    <!-- Loading -->
+    <div *ngIf="loading" class="text-center py-3">
+      <c-spinner color="primary" />
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="!loading && errorMessage" class="text-danger">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Table -->
+    <div *ngIf="!loading && !errorMessage">
+      <table cTable hover striped responsive>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Item</th>
+            <th>Description</th>
+            <th>Variants</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items; index as i">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.description }}</td>
+            <td>
+              <ul class="mb-0">
+                <li *ngFor="let variant of item.variants">
+                  {{ variant.name }} – {{ variant.price | currency }}
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </c-card-body>
+</c-card>

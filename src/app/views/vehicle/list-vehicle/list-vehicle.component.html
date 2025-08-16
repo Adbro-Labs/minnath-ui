@@ -1,0 +1,44 @@
+<c-col xs="12">
+    <div class="action-section">
+        <button cButton color="primary" (click)="addVehicle()">Add Vehicle</button>
+    </div>
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Vehicles</strong>
+      </c-card-header>
+      <c-card-body>
+        <table [hover]="true" cTable>
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Vehicle Number</th>
+                <th scope="col">Vehicle Type</th>
+                <th scope="col">Owner Name</th>
+                <th scope="col">Registration Number</th>
+                <th scope="col">Capacity</th>
+                <th scope="col">Expiry Date</th>
+                <th scope="col">Active</th>
+            </tr>
+            </thead>
+            <tbody>
+                @for(item of vehicleList; track item) {
+                    <tr>
+                        <td>{{$index+1}}</td>
+                        <td>{{item.vehicleName}}</td>
+                        <td>{{item.vehicleNumber}}</td>
+                        <td>{{item.vehicleType}}</td>
+                        <td>{{item.ownerName}}</td>
+                        <td>{{item.RegistrationNumber}}</td>
+                        <td>{{item.capacity}}</td>
+                        <td>{{item.expiryDate | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{item.isActive}}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+</c-col>
+<app-add-vehicle #addvehicle (updated)="getAllClients()"></app-add-vehicle>
+
