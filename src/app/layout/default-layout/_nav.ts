@@ -21,49 +21,49 @@ export const navItems: INavData[] = [
   //   linkProps: { fragment: 'headings' },
   //   iconComponent: { name: 'cil-pencil' }
   // },
-  {
-    name: 'Accounts',
-    title: true
-  },
-  {
-    name: "Ledger",
-    url: "/ledger/list",
-    iconComponent: { name: 'cil-address-book' }
-  },
-  {
-    name: "Journal",
-    url: "/journal/list",
-    iconComponent: { name: 'cil-address-book' }
-  },
-  {
-    name: "Heads",
-    url: "/journal/heads",
-    iconComponent: { name: 'cil-address-book' }
-  },
-  {
-    name: "Events",
-    url: "/journal/events",
-    iconComponent: { name: 'cil-address-book' }
-  },
-  {
-    name: 'Settings',
-    title: true
-  },
-  {
-    name: "Locations",
-    url: "/location/list",
-    iconComponent: { name: 'cil-map' }
-  },
-  {
-    name: "Vehicles",
-    url: "/vehicle/list",
-    iconComponent: { name: 'cil-truck' }
-  },
-  {
-    name: "Banks",
-    url: "/banks/list",
-    iconComponent: { name: 'cil-institution' }
-  },
+  // {
+  //   name: 'Accounts',
+  //   title: true
+  // },
+  // {
+  //   name: "Ledger",
+  //   url: "/ledger/list",
+  //   iconComponent: { name: 'cil-address-book' }
+  // },
+  // {
+  //   name: "Journal",
+  //   url: "/journal/list",
+  //   iconComponent: { name: 'cil-address-book' }
+  // },
+  // {
+  //   name: "Heads",
+  //   url: "/journal/heads",
+  //   iconComponent: { name: 'cil-address-book' }
+  // },
+  // {
+  //   name: "Events",
+  //   url: "/journal/events",
+  //   iconComponent: { name: 'cil-address-book' }
+  // },
+  // {
+  //   name: 'Settings',
+  //   title: true
+  // },
+  // {
+  //   name: "Locations",
+  //   url: "/location/list",
+  //   iconComponent: { name: 'cil-map' }
+  // },
+  // {
+  //   name: "Vehicles",
+  //   url: "/vehicle/list",
+  //   iconComponent: { name: 'cil-truck' }
+  // },
+  // {
+  //   name: "Banks",
+  //   url: "/banks/list",
+  //   iconComponent: { name: 'cil-institution' }
+  // },
   {
     name: "Clients",
     url: "/client/list",
@@ -74,21 +74,21 @@ export const navItems: INavData[] = [
     url: "/project/list",
     iconComponent: { name: 'cil-browser' }
   },
-  {
-    name: "Invoices",
-    url: "/project/invoices",
-    iconComponent: { name: 'cil-list' }
-  },
+  // {
+  //   name: "Invoices",
+  //   url: "/project/invoices",
+  //   iconComponent: { name: 'cil-list' }
+  // },
   {
     name: "Items",
     url: "/items/list",
     iconComponent: { name: 'cil-list' }
   },
-  {
-    name: "Users",
-    url: "/users/list",
-    iconComponent: { name: 'cil-contact' }
-  },
+  // {
+  //   name: "Users",
+  //   url: "/users/list",
+  //   iconComponent: { name: 'cil-contact' }
+  // },
   // {
   //   name: 'Base',
   //   url: '/base',

@@ -18,3 +18,4 @@ chrome-profiler-events*.json
 .idea/
 .project
 .classpath
+.angular/

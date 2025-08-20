@@ -1,7 +1,7 @@
 <c-card class="mb-4">
   <c-card-header class="d-flex justify-content-between align-items-center">
     <strong>Items & Variants</strong>
-    <button cButton color="primary" (click)="goToAddItem()">+ Add Item</button>
+    <button cButton color="primary" (click)="showAddItemView()">+ Add Item</button>
   </c-card-header>
 
   <c-card-body>
@@ -23,24 +23,17 @@
             <th>#</th>
             <th>Item</th>
             <th>Description</th>
-            <th>Variants</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of items; index as i">
             <td>{{ i + 1 }}</td>
-            <td>{{ item.name }}</td>
+            <td>{{ item.itemName }}</td>
             <td>{{ item.description }}</td>
-            <td>
-              <ul class="mb-0">
-                <li *ngFor="let variant of item.variants">
-                  {{ variant.name }} – {{ variant.price | currency }}
-                </li>
-              </ul>
-            </td>
           </tr>
         </tbody>
       </table>
     </div>
   </c-card-body>
 </c-card>
+<app-add-item #addItem (updated)="loadItems()"></app-add-item>

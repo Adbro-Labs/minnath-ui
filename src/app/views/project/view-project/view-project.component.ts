@@ -23,6 +23,7 @@ import { Transaction } from 'src/app/models/transaction';
 import { NumberToWordsPipe } from '../../../utils/pipes/numtowordpipe';
 import { environment } from 'src/environments/environment';
 import dayjs from 'dayjs';
+import { QuoteListComponent } from '../quote-list/quote-list.component';
 @Component({
   selector: 'app-view-project',
   standalone: true,
@@ -37,6 +38,7 @@ import dayjs from 'dayjs';
     AddTransactionComponent,
     GenerateInvoiceComponent,
     ManualInvoiceComponent,
+    QuoteListComponent
   ],
   templateUrl: './view-project.component.html',
   styleUrl: './view-project.component.scss',

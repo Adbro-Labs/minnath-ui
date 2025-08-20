@@ -22,7 +22,12 @@
 // We use those styles to show code examples, you should remove them in your application.
 @import "examples";
 
+@import "@angular/material/prebuilt-themes/magenta-violet.css";
+
 .action-section {
     text-align: right;
     padding-bottom: 5px;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

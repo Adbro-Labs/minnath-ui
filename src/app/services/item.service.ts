@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Item, ItemVariant } from "../models/item";
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemService {
   
-  private apiUrl = 'http://localhost:3000/api/items'; // Change if needed
+  private apiUrl = environment.baseUrl +  '/items';
 
   constructor(private http: HttpClient) {}
 
@@ -17,13 +18,13 @@ export class ItemService {
     return this.http.post(`${this.apiUrl}`, item);
   }
 
-  /** Add variants to an existing item */
-  addVariants(itemId: number, variants: ItemVariant[]): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${itemId}/variants`, { variants });
-  }
+  getAllItems(index: number, searchText = "") {
+    const url = this.apiUrl + `?index=${index}&searchText=${searchText}`;
+    return this.http.get(url);
+  } 
 
-  /** Get item with variants */
-  getItemWithVariants(itemId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${itemId}`);
+  generateQuote(body: any) {
+    const url = `${environment.baseUrl}/quote`;
+    return this.http.post(url, body);
   }
 }

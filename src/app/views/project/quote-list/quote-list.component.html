@@ -1,0 +1,63 @@
+<c-card class="mb-4">
+      <c-card-header>
+        <div class="div" style="display: flex; justify-content: space-between">
+            <span>Items</span>
+            <button cButton (click)="generateQuote()">Generate Quote</button>
+        </div>
+      </c-card-header>
+      <c-card-body>
+        <div class="row" [formGroup]="itemForm">
+            <div class="col-7">
+                <div class="mb-8">
+                    <label cLabel>Item</label>
+                    <input aria-label="lg input example"
+                        cFormControl
+                        placeholder="Type item name"
+                        sizing="lg"
+                        formControlName="itemName"
+                        type="text"
+                        [matAutocomplete]="auto"
+                    >    
+                    <mat-autocomplete #auto="matAutocomplete" [autoActiveFirstOption]="true">
+                        @for (option of itemList; track option.itemCode) {
+                            <mat-option [value]="option.itemName">{{option.itemName}}</mat-option>
+                        }
+                    </mat-autocomplete>
+                </div>
+            </div>
+            <div class="col-2">
+                            <div class="mb-1">
+              <label cLabel for="exampleFormControlInput1">Qty</label>
+              <input cFormControl
+                     placeholder="Qty"
+                     type="text"
+                     formControlName="quantity"
+              />
+            </div>
+            </div>
+            <div class="col-2" style="align-items: center;display: flex; margin-top: 30px;">
+                <button cButton color="primary" (click)="addItem()">Add</button>
+            </div>
+        </div>
+        <div class="row">
+                    <table [hover]="true" cTable>
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Item</th>
+                        <th scope="col">Quantity</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @for (option of quoteList; track option; let i = $index) {
+                           <tr>
+                                <td scope="col">{{i+1}}</td>
+                                <td scope="col">{{option.itemName}}</td>
+                                <td scope="col">{{option.quantity}}</td>
+                           </tr> 
+                        }
+                    </tbody>
+                </table>
+        </div>
+      </c-card-body>
+</c-card>
