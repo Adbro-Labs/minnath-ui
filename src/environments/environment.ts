@@ -1,3 +1,3 @@
 export const environment = {
-    baseUrl: "https://api.greenshoreqa.com"
+    baseUrl: "https://minnathapi.adbro.in"
 };
