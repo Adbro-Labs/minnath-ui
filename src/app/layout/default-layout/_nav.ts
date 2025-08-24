@@ -49,11 +49,11 @@ export const navItems: INavData[] = [
   //   name: 'Settings',
   //   title: true
   // },
-  // {
-  //   name: "Locations",
-  //   url: "/location/list",
-  //   iconComponent: { name: 'cil-map' }
-  // },
+  {
+    name: "Locations",
+    url: "/location/list",
+    iconComponent: { name: 'cil-map' }
+  },
   // {
   //   name: "Vehicles",
   //   url: "/vehicle/list",
@@ -69,11 +69,11 @@ export const navItems: INavData[] = [
     url: "/client/list",
     iconComponent: { name: 'cil-address-book' }
   },
-  {
-    name: "Projects",
-    url: "/project/list",
-    iconComponent: { name: 'cil-browser' }
-  },
+  // {
+  //   name: "Projects",
+  //   url: "/project/list",
+  //   iconComponent: { name: 'cil-browser' }
+  // },
   // {
   //   name: "Invoices",
   //   url: "/project/invoices",
@@ -82,6 +82,16 @@ export const navItems: INavData[] = [
   {
     name: "Items",
     url: "/items/list",
+    iconComponent: { name: 'cil-list' }
+  },
+  {
+    name: "Make Quote",
+    url: "/create-quote",
+    iconComponent: { name: 'cil-list' }
+  },
+  {
+    name: "List Quotes",
+    url: "/list-quote",
     iconComponent: { name: 'cil-list' }
   },
   // {

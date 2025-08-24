@@ -2,12 +2,12 @@
       <c-card-header>
         <div class="div" style="display: flex; justify-content: space-between">
             <span>Items</span>
-            <button cButton (click)="generateQuote()">Generate Quote</button>
+            <button cButton (click)="generateQuote()" [disabled]="quoteList.length < 1 || disableGenerate">Generate Quote</button>
         </div>
       </c-card-header>
       <c-card-body>
         <div class="row" [formGroup]="itemForm">
-            <div class="col-7">
+            <div class="col-md-7 col-xs-12">
                 <div class="mb-8">
                     <label cLabel>Item</label>
                     <input aria-label="lg input example"
@@ -25,17 +25,17 @@
                     </mat-autocomplete>
                 </div>
             </div>
-            <div class="col-2">
-                            <div class="mb-1">
-              <label cLabel for="exampleFormControlInput1">Qty</label>
-              <input cFormControl
-                     placeholder="Qty"
-                     type="text"
-                     formControlName="quantity"
-              />
+            <div class="col-md-2 col-xs-12">
+                <div class="mb-1">
+                    <label cLabel for="exampleFormControlInput1">Qty</label>
+                    <input cFormControl
+                            placeholder="Qty"
+                            type="text"
+                            formControlName="quantity"
+                    />
+                </div>
             </div>
-            </div>
-            <div class="col-2" style="align-items: center;display: flex; margin-top: 30px;">
+            <div class="col-md-2 col-xs-12" style="align-items: center;display: flex; margin-top: 30px;">
                 <button cButton color="primary" (click)="addItem()">Add</button>
             </div>
         </div>

@@ -1,0 +1,19 @@
+<c-card class="mb-4">
+      <c-card-body>
+        <div class="row">
+            <div class="col">
+                <div class="mb-6">
+                    <label cLabel>Client</label>
+                    <select cSelect [(ngModel)]="clientCode" (change)="getProjectByClient()">
+                        @for(item of clientList; track item) {
+                            <option [value]="item?.clientCode">{{item?.clientName}}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+      </c-card-body>
+</c-card>
+@if (clientCode) {
+    <app-quote-list [clientCode]="clientCode"></app-quote-list>
+}

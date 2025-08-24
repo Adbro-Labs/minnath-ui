@@ -12,26 +12,18 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
-                <th scope="col">Location</th>
-                <th scope="col">Current Balance</th>
-                <th scope="col">Contact Person</th>
+                <th scope="col">Location</th>                
                 <th scope="col">Contact Number</th>
-                <th scope="col">Bank</th>
-                <th scope="col">Invoice Code</th>
                 <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
                 @for(item of clientList; track item) {
                     <tr>
-                        <td>{{$index+1}}</td>
+                        <td>{{$index+1}}</td> 
                         <td>{{item.clientName}}</td>
                         <td>{{item.locationName}}</td>
-                        <td>{{item.currentBalance}}</td>
-                        <td>{{item.contactPersonName}}</td>
                         <td>{{item.contactNumber}}</td>
-                        <td>{{item.bankName}}</td>
-                        <td>{{item.invoiceCode}}</td>
                         <td><button cButton color="secondary" shape="rounded-pill" (click)="editClient(item)">Edit</button></td>
                     </tr>
                 }

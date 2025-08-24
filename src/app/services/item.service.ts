@@ -27,4 +27,9 @@ export class ItemService {
     const url = `${environment.baseUrl}/quote`;
     return this.http.post(url, body);
   }
+
+  getAllQuotes(clientCode: string, index: number) {
+    const url = `${environment.baseUrl}/quote?clientCode=${clientCode}&index=${index}`;
+    return this.http.get(url);
+  }
 }

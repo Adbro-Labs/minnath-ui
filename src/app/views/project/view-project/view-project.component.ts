@@ -24,6 +24,7 @@ import { NumberToWordsPipe } from '../../../utils/pipes/numtowordpipe';
 import { environment } from 'src/environments/environment';
 import dayjs from 'dayjs';
 import { QuoteListComponent } from '../quote-list/quote-list.component';
+import { GeneratedQuotesComponent } from '../generated-quotes/generated-quotes.component';
 @Component({
   selector: 'app-view-project',
   standalone: true,
@@ -38,7 +39,8 @@ import { QuoteListComponent } from '../quote-list/quote-list.component';
     AddTransactionComponent,
     GenerateInvoiceComponent,
     ManualInvoiceComponent,
-    QuoteListComponent
+    QuoteListComponent,
+    GeneratedQuotesComponent
   ],
   templateUrl: './view-project.component.html',
   styleUrl: './view-project.component.scss',
