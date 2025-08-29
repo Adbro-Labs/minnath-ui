@@ -1,0 +1,221 @@
+<div class="client-work-log">
+  <c-container>
+    <!-- Quotes Section -->
+    <c-row class="mb-4">
+      <c-col xs="12">
+        <c-card>
+          <c-card-header>
+            <h5 class="mb-0">
+              <i class="cil-calculator me-2"></i>
+              Quotes & Proposals
+            </h5>
+          </c-card-header>
+          <c-card-body>
+            <div class="table-responsive">
+              <table cTable class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Quote #</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (quote of quotes; track quote.id) {
+                    <tr>
+                      <td><strong>{{ quote.quoteNumber }}</strong></td>
+                      <td>{{ formatDate(quote.date) }}</td>
+                      <td>
+                        <button 
+                          cButton 
+                          variant="outline" 
+                          color="primary" 
+                          size="sm" 
+                          class="me-2"
+                          (click)="previewQuote(quote)"
+                        >
+                          <i class="cil-eye me-1"></i>Preview
+                        </button>
+                        <button 
+                          cButton 
+                          variant="outline" 
+                          color="success" 
+                          size="sm"
+                          (click)="downloadQuote(quote)"
+                        >
+                          <i class="cil-cloud-download me-1"></i>Download
+                        </button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+
+    <!-- Bills/Invoices Section -->
+    <c-row class="mb-4">
+      <c-col xs="12">
+        <c-card>
+          <c-card-header>
+            <h5 class="mb-0">
+              <i class="cil-receipt me-2"></i>
+              Bills & Invoices
+            </h5>
+          </c-card-header>
+          <c-card-body>
+            <div class="table-responsive">
+              <table cTable class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Invoice #</th>
+                    <th>Amount</th>
+                    <th>Invoice Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (invoice of invoices; track invoice.id) {
+                    <tr>
+                      <td><strong>{{ invoice.invoiceNumber }}</strong></td>
+                      <td>{{ formatCurrency(invoice.amount) }}</td>
+                      <td>{{ formatDate(invoice.date) }}</td>
+                      <td>
+                        <button 
+                          cButton 
+                          variant="outline" 
+                          color="primary" 
+                          size="sm"
+                          (click)="downloadInvoice(invoice)"
+                        >
+                          <i class="cil-cloud-download me-1"></i>View
+                        </button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+
+    <!-- Work Media Section -->
+    <c-row class="mb-4">
+      <c-col xs="12">
+        <c-card>
+          <c-card-header>
+            <h3 class="mb-0">
+              <i class="cil-media-play me-2"></i>
+              Work Media & Documents
+            </h3>
+          </c-card-header>
+          <c-card-body>
+            <!-- Images -->
+            <div class="mb-4">
+              <h5 class="mb-3">Images</h5>
+              <div class="media-grid">
+                @for (item of mediaItems; track item.id) {
+                  @if (item.type === 'image') {
+                    <div class="media-item">
+                      <div class="position-relative">
+                        <img 
+                          [src]="item.thumbnailUrl || item.url" 
+                          [alt]="item.title"
+                          class="img-fluid"
+                          style="width: 100%; height: 120px; object-fit: cover;"
+                          loading="lazy"
+                        />
+                        <div class="position-absolute bottom-0 start-0 end-0 bg-dark bg-opacity-75 text-white p-2">
+                          <small class="d-block">{{ item.title }}</small>
+                          <button 
+                            cButton 
+                            size="sm" 
+                            variant="outline" 
+                            color="light"
+                            class="mt-1"
+                            (click)="downloadMedia(item)"
+                          >
+                            <i class="cil-cloud-download me-1"></i>Download
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                }
+              </div>
+            </div>
+
+            <!-- Videos -->
+            <div class="mb-4">
+              <h5 class="mb-3">Videos</h5>
+              <div class="media-grid">
+                @for (item of mediaItems; track item.id) {
+                  @if (item.type === 'video') {
+                    <div class="media-item">
+                      <div class="position-relative">
+                        <div class="video-thumbnail d-flex align-items-center justify-content-center">
+                          <img 
+                            [src]="item.thumbnailUrl" 
+                            [alt]="item.title"
+                            class="img-fluid"
+                            style="width: 100%; height: 120px; object-fit: cover;"
+                            loading="lazy"
+                          />
+                          <div class="position-absolute">
+                            <i class="cil-media-play text-white" style="font-size: 2rem;"></i>
+                          </div>
+                        </div>
+                        <div class="p-2">
+                          <small class="d-block mb-2">{{ item.title }}</small>
+                          <button 
+                            cButton 
+                            size="sm" 
+                            variant="outline" 
+                            color="primary"
+                            (click)="downloadMedia(item)"
+                          >
+                            <i class="cil-cloud-download me-1"></i>Download
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                }
+              </div>
+            </div>
+
+            <!-- Documents -->
+            <div>
+              <h5 class="mb-3">Documents</h5>
+              @for (item of mediaItems; track item.id) {
+                @if (item.type === 'document') {
+                  <div class="document-item">
+                    <i [class]="'me-3 ' + getFileIcon(item.fileType || '')" style="font-size: 1.5rem; color: #6c757d;"></i>
+                    <div class="flex-grow-1">
+                      <div class="fw-semibold">{{ item.title }}</div>
+                      <small class="text-muted">{{ item.fileType }} • {{ item.size }}</small>
+                    </div>
+                    <button 
+                      cButton 
+                      variant="outline" 
+                      color="primary" 
+                      size="sm"
+                      (click)="downloadMedia(item)"
+                    >
+                      <i class="cil-cloud-download me-1"></i>Download
+                    </button>
+                  </div>
+                }
+              }
+            </div>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>

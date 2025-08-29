@@ -24,7 +24,12 @@
                         <td>{{item.clientName}}</td>
                         <td>{{item.locationName}}</td>
                         <td>{{item.contactNumber}}</td>
-                        <td><button cButton color="secondary" shape="rounded-pill" (click)="editClient(item)">Edit</button></td>
+                        <td>
+                            <div style="display: flex; gap: 3px;">
+                                <button cButton color="secondary" shape="rounded-pill" (click)="logWork(item)">Work Log</button>
+                                <button cButton color="secondary" shape="rounded-pill" (click)="editClient(item)">Edit</button>
+                            </div>
+                        </td>
                     </tr>
                 }
             </tbody>

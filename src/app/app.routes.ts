@@ -111,6 +111,13 @@ export const routes: Routes = [
         data: {
           title: 'Generated Quotes'
         }
+      },
+      {
+        path: 'work-log',
+        loadComponent: () => import ("./views/work-log/work-log.component").then(x => x.WorkLogComponent),
+        data: {
+          title: 'Work Log'
+        }
       }
     ],
     canActivate: [authGuard]

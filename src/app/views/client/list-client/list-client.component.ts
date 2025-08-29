@@ -3,6 +3,7 @@ import { ColComponent, CardComponent, CardHeaderComponent, CardBodyComponent, Ta
 import { AddClientComponent } from "../add-client/add-client.component";
 import { ClientService } from 'src/app/services/client.service';
 import { Clients, ClientsWithBankDetails } from 'src/app/models/clients';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-client',
@@ -15,6 +16,7 @@ export class ListClientComponent implements OnInit {
   @ViewChild('addClient') addClient: AddClientComponent | undefined;
   clientService = inject(ClientService);
   clientList: ClientsWithBankDetails[] = [];
+  router = inject(Router);
 
   ngOnInit(): void {
     this.getAllClients();
@@ -43,4 +45,7 @@ export class ListClientComponent implements OnInit {
       this.addClient.visible = true;
     }
   } 
+  logWork(clientDetails: any) {
+    this.router.navigate(['/work-log']);
+  }
 }
