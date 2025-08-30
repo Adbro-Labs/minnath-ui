@@ -106,6 +106,13 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'create-quote/:id',
+        loadComponent: () => import('./views/project/generate-quotes/generate-quotes.component').then(m => m.GenerateQuoteComponent),
+        data: {
+          title: 'Create Quote'
+        }
+      },
+      {
         path: 'list-quote',
         loadComponent: () => import('./views/project/generated-quotes/generated-quotes.component').then(m => m.GeneratedQuotesComponent),
         data: {

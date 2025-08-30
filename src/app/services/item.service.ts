@@ -32,4 +32,9 @@ export class ItemService {
     const url = `${environment.baseUrl}/quote?clientCode=${clientCode}&index=${index}`;
     return this.http.get(url);
   }
+
+  getQuoteDetailsById(quoteId: string) {
+    const url = `${environment.baseUrl}/quote/getById?quoteId=${quoteId}`;
+    return this.http.get(url);
+  }
 }

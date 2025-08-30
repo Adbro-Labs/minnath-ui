@@ -20,6 +20,7 @@ export class QuoteListComponent implements OnInit {
   quoteList: any[] = [];
   itemForm!: FormGroup;
   disableGenerate = false;
+  quoteCode = "";
   service = inject(ItemService);
   fb = inject(FormBuilder);
   @Input() clientCode!: string;
@@ -65,6 +66,7 @@ export class QuoteListComponent implements OnInit {
   generateQuote() {
     this.disableGenerate = true;
     this.service.generateQuote({
+      id: this.quoteCode,
       clientCode: this.clientCode,
       items: this.quoteList
     }).subscribe({
@@ -79,5 +81,8 @@ export class QuoteListComponent implements OnInit {
       }
     });
             
+  }
+  deleteItem(index: number) {
+    this.quoteList.splice(index, 1);
   }
 }

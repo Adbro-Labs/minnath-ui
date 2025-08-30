@@ -55,6 +55,10 @@ export class GeneratedQuotesComponent implements OnInit {
     window.open(filePath);
   }
 
+  editQuote(quoteDetails: any) {
+    this.router.navigate(["/create-quote", quoteDetails.id]);
+  }
+
   createQuote() {
     this.router.navigate(["/project/create-quote"]);
   }

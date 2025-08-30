@@ -46,6 +46,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Item</th>
                         <th scope="col">Quantity</th>
+                        <th scope="col">Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -54,6 +55,9 @@
                                 <td scope="col">{{i+1}}</td>
                                 <td scope="col">{{option.itemName}}</td>
                                 <td scope="col">{{option.quantity}}</td>
+                                <td scope="col">
+                                    <button cButton color="secondary" shape="rounded-pill" (click)="deleteItem(i)">Delete</button>
+                                </td>
                            </tr> 
                         }
                     </tbody>

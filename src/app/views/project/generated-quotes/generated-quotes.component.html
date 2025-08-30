@@ -38,7 +38,12 @@
                         <td>{{$index+1}}</td> 
                         <td>{{item.quotecreatedat | date: 'dd-MM-yyyy'}}</td>
                         <td>{{item.quoteNumber}}</td>
-                        <td><button cButton color="secondary" shape="rounded-pill" (click)="viewQuote(item)">View</button></td>
+                        <td>
+                            <div style="display: flex; gap: 3px;">
+                                <button cButton color="secondary" shape="rounded-pill" (click)="viewQuote(item)">View</button>
+                                 <button cButton color="secondary" shape="rounded-pill" (click)="editQuote(item)">Edit</button>
+                            </div>                            
+                        </td>
                     </tr>
                 }
             </tbody>

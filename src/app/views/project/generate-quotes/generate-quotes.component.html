@@ -4,7 +4,7 @@
             <div class="col">
                 <div class="mb-6">
                     <label cLabel>Client</label>
-                    <select cSelect [(ngModel)]="clientCode" (change)="getProjectByClient()">
+                    <select cSelect [(ngModel)]="clientCode" (change)="getProjectByClient()" [disabled]="disableClient">
                         @for(item of clientList; track item) {
                             <option [value]="item?.clientCode">{{item?.clientName}}</option>
                         }
@@ -14,6 +14,6 @@
         </div>
       </c-card-body>
 </c-card>
-@if (clientCode) {
-    <app-quote-list [clientCode]="clientCode"></app-quote-list>
-}
+
+    <app-quote-list [clientCode]="clientCode" #quoteList [hidden]="!clientCode"></app-quote-list>
+
