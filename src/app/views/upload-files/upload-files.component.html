@@ -1,0 +1,66 @@
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>Upload Files</h5>
+      <button (click)="closeDialog()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+        <form cForm [formGroup]="attachmentForm">
+              <div class="mb-3">
+                <label cLabel>Document Type</label>
+                <select cSelect placeholder="Select Type" formControlName="fileCategory">
+                  @for(item of projectType; track item) {
+                    <option [value]="item.code">{{item.label}}</option>
+                  }
+                </select>
+              </div>
+            @if(attachmentForm.get('fileCategory')?.value == 'DOCUMENT') {
+              <div class="mb-3">
+                <label cLabel for="exampleFormControlInput1">Description</label>
+                <input cFormControl
+                      placeholder="Description"
+                      type="text"
+                      formControlName="description"
+                />
+              </div>
+            }
+
+            @if(attachmentForm.get('fileCategory')?.value == 'INVOICE') {
+              <div class="mb-3">
+                <label cLabel for="exampleFormControlInput1">Invoice Code</label>
+                <input cFormControl
+                      placeholder="Date"
+                      type="text"
+                      formControlName="invoiceCode"
+                />
+              </div>
+              <div class="mb-3">
+                <label cLabel for="exampleFormControlInput1">Invoice Date</label>
+                <input cFormControl
+                      placeholder="Date"
+                      type="date"
+                      formControlName="invoiceDate"
+                />
+              </div>
+              <div class="mb-3">
+                <label cLabel for="exampleFormControlInput1">Amount</label>
+                <input cFormControl
+                      placeholder="Amount"
+                      type="number"
+                      formControlName="amount"
+                />
+              </div>
+            }
+          <div class="mb-3">
+            <label cLabel>Attachment</label>
+            <input #fileuploader type="file" id="file" (change)="onFileSelected($event)" />
+        </div>
+        </form>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="closeDialog()" cButton color="secondary">
+        Close
+      </button>
+      <button cButton color="primary"  [disabled]="attachmentForm.invalid || disableSave" (click)="saveLPO()">Save changes</button>
+    </c-modal-footer>
+  </c-modal>
+  

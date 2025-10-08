@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { 
   CardComponent, 
@@ -15,6 +15,11 @@ import {
   ColComponent,
   ContainerComponent
 } from '@coreui/angular';
+import { UploadFilesComponent } from '../upload-files/upload-files.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LpoService } from '../../services/lpo.service';
+import { ItemService } from '../../services/item.service';
+import { environment } from '../../../environments/environment';
 
 export interface Quote {
   id: string;
@@ -61,11 +66,7 @@ export interface Note {
     CardHeaderComponent,
     TableDirective,
     ButtonDirective,
-    BadgeComponent,
-    CarouselComponent,
-    CarouselItemComponent,
-    CarouselIndicatorsComponent,
-    CarouselControlComponent,
+    UploadFilesComponent,
     RowComponent,
     ColComponent,
     ContainerComponent],
@@ -73,109 +74,60 @@ export interface Note {
   styleUrl: './work-log.component.scss'
 })
 export class WorkLogComponent implements OnInit  {
-   // Header Information
-  clientInfo = {
-    companyLogo: 'https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop',
-    clientName: 'Acme Corporation',
-    projectTitle: 'Digital Transformation Project',
-    startDate: new Date('2024-01-15'),
-    endDate: new Date('2024-12-15')
-  };
+
+  @ViewChild('uploader') uploader: UploadFilesComponent | undefined;
+  route = inject(ActivatedRoute);
+  service = inject(LpoService);
+  quote = inject(ItemService);
+  invoiceList: any[] = [];
+  clientCode: string = "";
+  documents = [];
+
+  showUploader() {
+    if (this.uploader) {
+      this.uploader.visible = true;
+    }
+  }
+
+  getDocuments(clientCode: string) {
+    this.service.getAllLPO(clientCode).subscribe({
+      next: (response: any) => {
+        this.invoiceList = response?.filter((x: any) => x.fileCategory == 'INVOICE');
+        this.mediaItems = response?.filter((x: any) => x.fileCategory == 'DOCUMENT');
+        this.mediaItems = this.mediaItems.map(x => {
+          x.fileName = environment.assetUrl + "/" + x.fileName;
+          return x;
+        })
+      }
+    });
+  }
+
+  getQuotes(index = 0) {
+    this.quote.getAllQuotes(this.clientCode, index).subscribe({
+      next: (response: any) => {
+        this.quotes = response?.data;
+      }
+    })
+  }
+
+  ngOnInit(): void {
+    this.route.params.subscribe({
+      next: (response) => {
+        if (response["clientCode"]) {
+          this.getDocuments(response["clientCode"]);
+          this.clientCode = response["clientCode"];
+          this.getQuotes();
+        }
+      }
+    })
+  }
 
   // Mock Data
-  quotes: Quote[] = [
-    {
-      id: '1',
-      quoteNumber: 'QT-2024-001',
-      amount: 15000,
-      description: 'Frontend Development - Phase 1',
-      status: 'approved',
-      date: new Date('2024-01-10')
-    },
-    {
-      id: '2',
-      quoteNumber: 'QT-2024-002', 
-      amount: 22500,
-      description: 'Backend API Development',
-      status: 'pending',
-      date: new Date('2024-02-01')
-    },
-    {
-      id: '3',
-      quoteNumber: 'QT-2024-003',
-      amount: 8750,
-      description: 'UI/UX Design Consultation',
-      status: 'approved',
-      date: new Date('2024-01-20')
-    }
-  ];
+  quotes: any[] = [];
 
-  invoices: Invoice[] = [
-    {
-      id: '1',
-      invoiceNumber: 'INV-2024-001',
-      amount: 15000,
-      status: 'paid',
-      date: new Date('2024-02-01'),
-      dueDate: new Date('2024-02-15')
-    },
-    {
-      id: '2', 
-      invoiceNumber: 'INV-2024-002',
-      amount: 8750,
-      status: 'paid',
-      date: new Date('2024-02-15'),
-      dueDate: new Date('2024-03-01')
-    },
-    {
-      id: '3',
-      invoiceNumber: 'INV-2024-003',
-      amount: 11250,
-      status: 'pending',
-      date: new Date('2024-03-01'),
-      dueDate: new Date('2024-03-15')
-    }
-  ];
+  invoices: Invoice[] = [];
 
-  mediaItems: MediaItem[] = [
-    {
-      id: '1',
-      type: 'image',
-      title: 'Homepage Mockup',
-      url: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=400',
-      thumbnailUrl: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=200'
-    },
-    {
-      id: '2',
-      type: 'image', 
-      title: 'Dashboard Design',
-      url: 'https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=400',
-      thumbnailUrl: 'https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=200'
-    },
-    {
-      id: '3',
-      type: 'video',
-      title: 'Demo Video - User Flow',
-      url: '#',
-      thumbnailUrl: 'https://images.pexels.com/photos/5380664/pexels-photo-5380664.jpeg?auto=compress&cs=tinysrgb&w=200'
-    },
-    {
-      id: '4',
-      type: 'document',
-      title: 'Technical Specification',
-      url: '#',
-      fileType: 'PDF',
-      size: '2.3 MB'
-    },
-    {
-      id: '5',
-      type: 'document',
-      title: 'Project Requirements',
-      url: '#', 
-      fileType: 'DOCX',
-      size: '1.8 MB'
-    }
-  ];
+  mediaItems: any[] = [];
 
   notes: Note[] = [
     {
@@ -214,7 +166,6 @@ export class WorkLogComponent implements OnInit  {
 
   constructor() {}
 
-  ngOnInit(): void {}
 
   getStatusBadgeClass(status: string): string {
     switch (status) {
@@ -264,13 +215,14 @@ export class WorkLogComponent implements OnInit  {
     // Implement download logic
   }
 
-  previewQuote(quote: Quote): void {
+  previewQuote(quote: any): void {
     console.log('Previewing quote:', quote.quoteNumber);
-    // Implement preview logic
+    window.open(`${environment.baseUrl}/quotes/${quote?.fileName}`, "_Blank");
   }
 
-  downloadInvoice(invoice: Invoice): void {
-    console.log('Downloading invoice:', invoice.invoiceNumber);
+  downloadInvoice(invoice: any): void {
+    console.log('Downloading invoice:', invoice);
+    window.open(`${environment.assetUrl}/${invoice?.fileName}`, "_Blank");
     // Implement download logic
   }
 
@@ -287,7 +239,7 @@ export class WorkLogComponent implements OnInit  {
   formatCurrency(amount: number): string {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'INR'
     }).format(amount);
   }
 
@@ -297,5 +249,20 @@ export class WorkLogComponent implements OnInit  {
       month: 'short',
       day: 'numeric'
     }).format(date);
+  }
+
+  lightboxItem: any = null;
+
+  openLightbox(item: any, type: string) {
+    if (type == 'image' || type == 'video') {
+      item.type = type;
+      this.lightboxItem = item;
+    } else {
+      window.open(item.fileName, '_Blank');
+    }    
+  }
+
+  closeLightbox() {
+    this.lightboxItem = null;
   }
 }

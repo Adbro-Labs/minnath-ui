@@ -120,7 +120,7 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'work-log',
+        path: 'work-log/:clientCode',
         loadComponent: () => import ("./views/work-log/work-log.component").then(x => x.WorkLogComponent),
         data: {
           title: 'Work Log'

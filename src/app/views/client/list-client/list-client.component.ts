@@ -46,6 +46,6 @@ export class ListClientComponent implements OnInit {
     }
   } 
   logWork(clientDetails: any) {
-    this.router.navigate(['/work-log']);
+    this.router.navigate(['/work-log', clientDetails.clientCode]);
   }
 }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import { LPO } from '../models/lpo';
 
 @Injectable({
@@ -13,18 +13,14 @@ export class LpoService {
   constructor() { }
 
 
-  getAllLPO = () => {
-    const url = environment.baseUrl + "/lpo";
-    return this.http.get<LPO[]>(url);
+  getAllLPO = (clientCode: string) => {
+    const url = environment.baseUrl + "/attachment/documents?clientCode=" + clientCode;
+    return this.http.get<any[]>(url);
   }
 
   saveLPO = (body: any) => {
-    const url = environment.baseUrl + "/lpo";
-    return this.http.post<LPO>(url, body);
+    const url = environment.baseUrl + "/attachment/upload";
+    return this.http.post<any>(url, body);
   }
 
-  getLPOByProject = (projectId: string) => {
-    const url = environment.baseUrl + "/lpo/getByProject?projectCode=" + projectId;
-    return this.http.get<LPO[]>(url);
-  }
 }

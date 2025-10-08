@@ -8,20 +8,20 @@ import {
   ColComponent,
   TableModule,
 } from '@coreui/angular';
-import { Project } from 'src/app/models/project';
-import { ProjectService } from 'src/app/services/project.service';
+import { Project } from '../../../models/project';
+import { ProjectService } from '../../../services/project.service';
 import { AddLPOComponent } from '../add-lpo/add-lpo.component';
 import { AddTransactionComponent } from '../add-transaction/add-transaction.component';
-import { LpoService } from 'src/app/services/lpo.service';
-import { LPO } from 'src/app/models/lpo';
+import { LpoService } from '../../../services/lpo.service';
+import { LPO } from '../../../models/lpo';
 
 import { GenerateInvoiceComponent } from '../generate-invoice/generate-invoice.component';
 import { ManualInvoiceComponent } from '../manual-invoice/manual-invoice.component';
 
-import { Transaction } from 'src/app/models/transaction';
+import { Transaction } from '../../../models/transaction';
 
 import { NumberToWordsPipe } from '../../../utils/pipes/numtowordpipe';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 import dayjs from 'dayjs';
 import { QuoteListComponent } from '../quote-list/quote-list.component';
 import { GeneratedQuotesComponent } from '../generated-quotes/generated-quotes.component';
@@ -102,7 +102,6 @@ export class ViewProjectComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProjectDetails();
-    this.getLPODetails();
     this.getProjectTransactions();
   }
 
@@ -112,17 +111,6 @@ export class ViewProjectComponent implements OnInit {
       this.service.getProjectDetails(projectId).subscribe({
         next: (response) => {
           this.projectDetails = response;
-        },
-      });
-    }
-  }
-
-  getLPODetails() {
-    const projectId = this.route.snapshot.params?.['id'];
-    if (projectId) {
-      this.lpoService.getLPOByProject(projectId).subscribe({
-        next: (response) => {
-          this.lpoDetails = response;
         },
       });
     }
