@@ -89,8 +89,8 @@ export class WorkLogComponent implements OnInit  {
     }
   }
 
-  getDocuments(clientCode: string) {
-    this.service.getAllLPO(clientCode).subscribe({
+  getDocuments() {
+    this.service.getAllLPO(this.clientCode).subscribe({
       next: (response: any) => {
         this.invoiceList = response?.filter((x: any) => x.fileCategory == 'INVOICE');
         this.mediaItems = response?.filter((x: any) => x.fileCategory == 'DOCUMENT');
@@ -114,12 +114,16 @@ export class WorkLogComponent implements OnInit  {
     this.route.params.subscribe({
       next: (response) => {
         if (response["clientCode"]) {
-          this.getDocuments(response["clientCode"]);
           this.clientCode = response["clientCode"];
-          this.getQuotes();
+          this.getDetails();
         }
       }
     })
+  }
+
+  getDetails() {
+    this.getQuotes();
+    this.getDocuments();
   }
 
   // Mock Data

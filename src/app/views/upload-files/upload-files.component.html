@@ -52,9 +52,16 @@
             }
           <div class="mb-3">
             <label cLabel>Attachment</label>
-            <input #fileuploader type="file" id="file" (change)="onFileSelected($event)" />
+            <input #fileuploader type="file" id="file" (change)="onFileSelected($event)" multiple/>
         </div>
         </form>
+        @if(uploadProgress) {
+          <c-progress>
+          <c-progress-bar [value]="uploadProgress" class="overflow-visible text-dark px-2" color="success">
+            uploading files
+          </c-progress-bar>
+        </c-progress>
+        }
     </c-modal-body>
     <c-modal-footer>
       <button (click)="closeDialog()" cButton color="secondary">

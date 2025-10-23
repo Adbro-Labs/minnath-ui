@@ -20,7 +20,10 @@ export class LpoService {
 
   saveLPO = (body: any) => {
     const url = environment.baseUrl + "/attachment/upload";
-    return this.http.post<any>(url, body);
-  }
+    return this.http.post<any>(url, body, {
+        reportProgress: true,
+        observe: 'events'
+      });
+    }
 
 }
