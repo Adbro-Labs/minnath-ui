@@ -3,14 +3,14 @@ import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, 
 import { CardComponent, ColComponent, CardHeaderComponent, CardBodyComponent, TableDirective, ButtonModule, FormModule } from '@coreui/angular';
 import { ListGroupDirective, ListGroupItemDirective } from '@coreui/angular';
 import { ItemService } from "../../../services/item.service";
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { debounceTime } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-quote-list',
   standalone: true,
-  imports: [CardComponent, ColComponent, CardHeaderComponent, CardBodyComponent, TableDirective, ButtonModule, 
+  imports: [CardComponent, ColComponent, CardHeaderComponent, CardBodyComponent, TableDirective, ButtonModule,
     FormModule, FormsModule, ReactiveFormsModule, ListGroupDirective, ListGroupItemDirective, MatAutocompleteModule],
   templateUrl: './quote-list.component.html',
   styleUrl: './quote-list.component.scss'
@@ -30,6 +30,7 @@ export class QuoteListComponent implements OnInit {
       this.quoteList.push(this.itemForm.value);
       this.itemForm.reset();
       this.itemForm.get("itemName")?.setValue("");
+      this.service.saveQuotes(this.clientCode, this.quoteList);
     }
   }
 
@@ -44,16 +45,18 @@ export class QuoteListComponent implements OnInit {
     this.loadItems("");
     this.initForm();
     this.itemForm.get("itemName")?.valueChanges.pipe(
-    debounceTime(300)
+      debounceTime(300)
     )
-    .subscribe({
-      next: (response: any) => {
-        this.loadItems(response);
-      }
-    })
+      .subscribe({
+        next: (response: any) => {
+          this.loadItems(response);
+        }
+      });
   }
 
-
+  loadDraftQuotes() {
+    this.quoteList = this.service.getQuotes(this.clientCode) || [];
+  }
 
   loadItems(searchText = "") {
     this.service.getAllItems(0, searchText).subscribe({
@@ -73,16 +76,18 @@ export class QuoteListComponent implements OnInit {
       next: (response: any) => {
         this.disableGenerate = false;
         this.quoteList = [];
+        this.service.removeQuotes(this.clientCode);
         if (response.filePath) {
           window.open(environment.baseUrl + response.filePath);
-        }        
+        }
       }, error: () => {
         this.disableGenerate = false;
       }
     });
-            
+
   }
   deleteItem(index: number) {
     this.quoteList.splice(index, 1);
+    this.service.saveQuotes(this.clientCode, this.quoteList);
   }
 }

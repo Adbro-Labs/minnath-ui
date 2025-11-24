@@ -26,7 +26,7 @@ export class GenerateQuoteComponent implements OnInit, AfterViewInit {
   quoteFilterForm!: FormGroup;
   disableClient = false;
 
-  @ViewChild('quoteList', {static: false}) quoteList: QuoteListComponent | undefined;
+  @ViewChild('quoteList', { static: false }) quoteList: QuoteListComponent | undefined;
 
   ngOnInit(): void {
     this.loadClients();
@@ -50,18 +50,15 @@ export class GenerateQuoteComponent implements OnInit, AfterViewInit {
   }
 
   getProjectByClient() {
-    this.projectService.getAllProjects({clientCode: this.clientCode}).subscribe({
-      next: (response: any) => {
-        this.projectCode = "";
-        this.projectList = response;
-      }
-    })
+    if (this.quoteList) {
+      this.quoteList.clientCode = this.clientCode;
+      this.quoteList?.loadDraftQuotes();
+    }
   }
 
   getQuoteDetailsById(quoteId: string) {
     this.service.getQuoteDetailsById(quoteId).subscribe((response: any) => {
       this.clientCode = response.clientCode;
-      console.log(this.quoteList)
       if (this.quoteList) {
         this.quoteList.quoteList = response.items;
         this.quoteList.quoteCode = response.id;
