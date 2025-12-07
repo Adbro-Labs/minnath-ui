@@ -19,3 +19,4 @@ chrome-profiler-events*.json
 .project
 .classpath
 .angular/
+.history

@@ -36,7 +36,8 @@
                 </div>
             </div>
             <div class="col-md-2 col-xs-12" style="align-items: center;display: flex; margin-top: 30px;">
-                <button cButton color="primary" (click)="addItem()">Add</button>
+                <button cButton color="primary" (click)="addItem()">Add</button> &nbsp;
+                @if(!isRecording) {<button cButton color="primary" (click)="startRecording()">Record</button>}
             </div>
         </div>
         <div class="row">
@@ -65,3 +66,16 @@
         </div>
       </c-card-body>
 </c-card>
+
+@if(isRecording || processing) {<div class="overlay">
+    <div class="card">
+        @if(isRecording) {<div class="meter-wrapper">
+            <div class="bar-container" title="Mic level">
+                <div class="bar" [style.height.%]="level"></div>
+            </div>
+            <div class="label">{{ level }}%</div>
+            <button cButton color="primary" (click)="stopRecording()">Stop</button>
+        </div>}
+        @if(processing){<div class="loading-text">Processing...</div>}
+    </div>
+</div>}

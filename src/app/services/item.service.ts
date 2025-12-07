@@ -40,6 +40,19 @@ export class ItemService {
     return this.http.get(url);
   }
 
+  transcribeVoice(body: any) {
+    const url = `${environment.baseUrl}/transcribe/upload`;
+    return this.http.post<any>(url, body, {
+        reportProgress: true,
+        observe: 'events'
+      });
+  }
+
+  checkTranscription() {
+    const url = `${environment.baseUrl}/transcribe/status`;
+    return this.http.get(url);
+  }
+
 
   // Get complete store object
   private getStore(): Record<string, any> {
