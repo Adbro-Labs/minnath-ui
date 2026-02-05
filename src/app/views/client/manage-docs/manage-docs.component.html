@@ -1,0 +1,567 @@
+<h3>Manage Documentation</h3>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="manage-docs-form">
+  <div class="row">
+    <div class="col-md-4">
+      <label cLabel for="client-select">Select Client</label>
+      <select cSelect id="client-select" formControlName="selectedClient">
+        <option *ngFor="let client of clients" [value]="client.clientCode">
+          {{ client.clientName }}
+        </option>
+      </select>
+    </div>
+    <div class="col-md-4" *ngIf="applicationLink">
+      <!-- add button to download application link -->
+      <a
+        [href]="applicationLink"
+        class="btn btn-primary"
+        download
+        target="_blank"
+        >Download Application</a
+      >
+    </div>
+    <div class="col-md-4" *ngIf="testCertLink">
+      <!-- add button to download test certificate link -->
+      <a [href]="testCertLink" class="btn btn-primary" download target="_blank"
+        >Download Test Certificate</a
+      >
+    </div>
+  </div>
+  <hr />
+
+  <div class="card mb-3">
+    <div class="card-header">Applicant & Address</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="applicantName">Applicant Name</label>
+            <input
+              cFormControl
+              id="applicantName"
+              type="text"
+              placeholder="Applicant name"
+              formControlName="applicantName"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="houseName">House Name</label>
+            <input
+              cFormControl
+              id="houseName"
+              type="text"
+              placeholder="House Name"
+              formControlName="houseName"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="houseNumber">House Number</label>
+            <input
+              cFormControl
+              id="houseNumber"
+              type="text"
+              placeholder="House Number"
+              formControlName="houseNumber"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="street">Street</label>
+            <input
+              cFormControl
+              id="street"
+              type="text"
+              placeholder="Street"
+              formControlName="street"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="place">Place</label>
+            <input
+              cFormControl
+              id="place"
+              type="text"
+              placeholder="Place"
+              formControlName="place"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="district">District</label>
+            <input
+              cFormControl
+              id="district"
+              type="text"
+              placeholder="District"
+              formControlName="district"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="village">Village/Survey number</label>
+            <input
+              cFormControl
+              id="village"
+              type="text"
+              placeholder="Village"
+              formControlName="village"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="pincode">Pin Code</label>
+            <input
+              cFormControl
+              id="pincode"
+              type="text"
+              placeholder="Pin Code"
+              formControlName="pincode"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="email">E-mail address</label>
+            <input
+              cFormControl
+              id="email"
+              type="text"
+              placeholder="E-mail address"
+              formControlName="email"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card mb-3">
+    <div class="card-header">Communication Address</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="communicationHouseName">House Name</label>
+            <input
+              cFormControl
+              id="communicationHouseName"
+              type="text"
+              placeholder="House Name"
+              formControlName="communicationHouseName"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="communicationHouseNumber">House Number</label>
+            <input
+              cFormControl
+              id="communicationHouseNumber"
+              type="text"
+              placeholder="House Number"
+              formControlName="communicationHouseNumber"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="communicationStreet">Street</label>
+            <input
+              cFormControl
+              id="communicationStreet"
+              type="text"
+              placeholder="Street"
+              formControlName="communicationStreet"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="communicationPlace">Place</label>
+            <input
+              cFormControl
+              id="communicationPlace"
+              type="text"
+              placeholder="Place"
+              formControlName="communicationPlace"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="district">District</label>
+            <input
+              cFormControl
+              id="communicationDistrict"
+              type="text"
+              placeholder="District"
+              formControlName="communicationDistrict"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="village">Pin Code</label>
+            <input
+              cFormControl
+              id="village"
+              type="text"
+              placeholder="Pin Code"
+              formControlName="communicationPincode"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="village">Phone number</label>
+            <input
+              cFormControl
+              id="village"
+              type="text"
+              placeholder="Phone Number"
+              formControlName="communicationPhoneNumber"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="village">Mobile</label>
+            <input
+              cFormControl
+              id="village"
+              type="text"
+              placeholder="Mobile Number"
+              formControlName="communicationMobile"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-header">Connection Details</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="useOfConnection">Use of Connection</label>
+            <input
+              cFormControl
+              id="useOfConnection"
+              type="text"
+              placeholder="Use of Connection"
+              formControlName="useOfConnection"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="connectedLoad">Connected Load</label>
+            <input
+              cFormControl
+              id="connectedLoad"
+              type="text"
+              placeholder="Connected Load"
+              formControlName="connectedLoad"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="aadhaarNo">Aadhaar No</label>
+            <input
+              cFormControl
+              id="aadhaarNo"
+              type="text"
+              placeholder="Aadhaar No"
+              formControlName="aadhaarNo"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-header">Installation Details</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="parentName">Parent Name</label>
+            <input
+              cFormControl
+              id="parentName"
+              type="text"
+              placeholder="Parent name"
+              formControlName="parentName"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="contractor">Contractor</label>
+            <input
+              cFormControl
+              id="contractor"
+              type="text"
+              placeholder="Contractor"
+              formControlName="contractor"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="licenseNo">License No</label>
+            <input
+              cFormControl
+              id="licenseNo"
+              type="text"
+              placeholder="License No"
+              formControlName="licenseNo"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="completionCertNo"
+              >Completion Certificate No</label
+            >
+            <input
+              cFormControl
+              id="completionCertNo"
+              type="text"
+              placeholder="Completion Certificate No"
+              formControlName="completionCertNo"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-header">Test Measurements</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="insulationResistance"
+              >Insulation Resistance</label
+            >
+            <input
+              cFormControl
+              id="insulationResistance"
+              type="text"
+              placeholder="Insulation Resistance"
+              formControlName="insulationResistance"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="insulationWithEarth"
+              >Insulation Resistance with Earth</label
+            >
+            <input
+              cFormControl
+              id="insulationWithEarth"
+              type="text"
+              placeholder="Insulation Resistance with Earth"
+              formControlName="insulationWithEarth"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="earthResistance">Earth Resistance</label>
+            <input
+              cFormControl
+              id="earthResistance"
+              type="text"
+              placeholder="Earth Resistance"
+              formControlName="earthResistance"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-header">Organization</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="organization">Organization</label>
+            <input
+              cFormControl
+              id="organization"
+              type="text"
+              placeholder="Organization"
+              formControlName="organization"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="designation">Designation</label>
+            <input
+              cFormControl
+              id="designation"
+              type="text"
+              placeholder="Designation"
+              formControlName="designation"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-header">Particulars</div>
+    <div class="card-body">
+      <div formArrayName="items">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Particulars</th>
+              <th>No of points</th>
+              <th>Rating</th>
+              <th>Total</th>
+              <th style="width: 120px">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let item of items.controls; let i = index"
+              [formGroupName]="i"
+            >
+              <td>
+                <input
+                  cFormControl
+                  type="text"
+                  class="form-control"
+                  formControlName="particulars"
+                />
+              </td>
+              <td>
+                <input
+                  cFormControl
+                  type="number"
+                  class="form-control"
+                  formControlName="points"
+                  (input)="updateRowTotal(i)"
+                />
+              </td>
+              <td>
+                <input
+                  cFormControl
+                  type="number"
+                  class="form-control"
+                  formControlName="rating"
+                  (input)="updateRowTotal(i)"
+                />
+              </td>
+              <td>
+                <input
+                  cFormControl
+                  type="number"
+                  class="form-control"
+                  formControlName="total"
+                  readonly
+                />
+              </td>
+              <td>
+                <button
+                  cButton
+                  color="danger"
+                  type="button"
+                  (click)="removeRow(i)"
+                >
+                  Remove
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mb-3">
+        <button cButton color="secondary" type="button" (click)="addRow()">
+          Add row
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-header">Declaration</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="declarationName">Declaration Name</label>
+            <input
+              cFormControl
+              id="declarationName"
+              type="text"
+              placeholder="Name"
+              formControlName="declarationName"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="declarationDate">Date</label>
+            <input
+              cFormControl
+              id="declarationDate"
+              type="date"
+              formControlName="declarationDate"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="declarationPlace">Place</label>
+            <input
+              cFormControl
+              id="declarationPlace"
+              type="text"
+              placeholder="Place"
+              formControlName="declarationPlace"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 1rem">
+    <button cButton color="primary" type="submit" [disabled]="form.invalid">
+      Save
+    </button>
+  </div>
+</form>

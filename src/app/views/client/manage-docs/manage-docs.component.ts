@@ -1,0 +1,133 @@
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+
+import { ClientService } from '../../../services/client.service';
+import { ClientsWithBankDetails } from '../../../models/clients';
+import { ButtonModule, FormModule } from '@coreui/angular';
+import { DocsService } from '../../../services/docs.service';
+import { environment } from '../../../../environments/environment';
+
+@Component({
+  selector: 'app-manage-docs',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule, FormModule],
+  templateUrl: './manage-docs.component.html',
+  styleUrls: ['./manage-docs.component.scss']
+})
+export class ManageDocsComponent {
+  clientService = inject(ClientService);
+  docsService = inject(DocsService);
+  clients: any[] = [];
+  fb = inject(FormBuilder);
+  applicationLink: string = '';
+  testCertLink: string = '';
+  form: FormGroup = this.fb.group({
+    selectedClient: [''],
+    applicantName: [''],
+    street: [''],
+    place: [''],
+    district: [''],
+    village: [''],
+    houseName: [''],
+    houseNumber: [''],
+    pincode: [''],
+    communicationHouseName: [''],
+    communicationHouseNumber: [''],
+    communicationStreet: [''],
+    communicationPlace: [''],
+    communicationDistrict: [''],
+    communicationPincode: [''],
+    communicationPhoneNumber: [''],
+    communicationMobile: [''],
+    useOfConnection: [''],
+    connectedLoad: [''],
+    aadhaarNo: [''],
+    parentName: [''],
+    contractor: [''],
+    licenseNo: [''],
+    completionCertNo: [''],
+    insulationResistance: [''],
+    insulationWithEarth: [''],
+    earthResistance: [''],
+    email: [''],
+    organization: [''],
+    designation: [''],
+    declarationName: [''],
+    declarationDate: [''],
+    declarationPlace: [''],
+    items: this.fb.array([])
+  });
+
+  ngOnInit(): void {
+    this.loadClients();
+    // initialize with one empty row
+    this.addRow();
+    this.form.get('selectedClient')?.valueChanges.subscribe(clientCode => {
+      if (clientCode) {
+        this.docsService.getclientDetails(clientCode).subscribe({
+          next: (res) => {
+            const details = res?.clientDetails;
+            delete details?.selectedClient;
+            this.form.patchValue(details);
+            this.applicationLink = environment.baseUrl + '/applications/' + details?.applicationFileName;
+            this.testCertLink = environment.baseUrl + '/applications/' + details?.testCertificateFileName;
+          },
+          error: (err) => {
+            console.error('Failed to load client details', err);
+          }
+        });
+      }
+    });
+  }
+
+  loadClients() {
+    this.clientService.getAllClients().subscribe({
+      next: (res) => (this.clients = res),
+      error: (err) => console.error('Failed to load clients', err)
+    });
+  }
+
+  onSubmit() {
+    // placeholder submit handler - wire to a service as needed
+    console.log('Manage Docs form submitted', this.form.value);
+
+    this.docsService.saveClientDetails(this.form.value).subscribe({
+      next: (res) => {
+        {
+          this.applicationLink = environment.baseUrl + '/docs/application/' + res?.applicationFileName;
+          this.testCertLink = environment.baseUrl + '/docs/test-certificate/' + res?.testCertificateFileName;
+        }
+      },
+      error: (err) => {
+        console.error('Failed to generate document', err);
+      }
+    });
+  }
+
+  get items(): FormArray {
+    return this.form.get('items') as FormArray;
+  }
+
+  addRow() {
+    const row = this.fb.group({
+      particulars: [''],
+      points: [0],
+      rating: [0],
+      total: [0]
+    });
+    this.items.push(row);
+  }
+
+  removeRow(index: number) {
+    this.items.removeAt(index);
+  }
+
+  updateRowTotal(index: number) {
+    const row = this.items.at(index) as FormGroup;
+    const points = Number(row.get('points')?.value) || 0;
+    const rating = Number(row.get('rating')?.value) || 0;
+    const total = points * rating;
+    row.get('total')?.setValue(total, { emitEvent: false });
+  }
+}

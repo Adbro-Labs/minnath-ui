@@ -19,6 +19,14 @@ export const routes: Routes = [
           title: 'list'
         }
       }
+      ,
+      {
+        path: 'manage-docs',
+        loadComponent: () => import('./manage-docs/manage-docs.component').then(m => m.ManageDocsComponent),
+        data: {
+          title: 'Manage Docs'
+        }
+      }
     ]
   }
 ];
