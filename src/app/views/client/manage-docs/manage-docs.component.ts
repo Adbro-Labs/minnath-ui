@@ -95,8 +95,8 @@ export class ManageDocsComponent {
     this.docsService.saveClientDetails(this.form.value).subscribe({
       next: (res) => {
         {
-          this.applicationLink = environment.baseUrl + '/docs/application/' + res?.applicationFileName;
-          this.testCertLink = environment.baseUrl + '/docs/test-certificate/' + res?.testCertificateFileName;
+          this.applicationLink = environment.baseUrl + '/applications/' + res?.applicationFileName;
+          this.testCertLink = environment.baseUrl + '/applications/' + res?.testCertificateFileName;
         }
       },
       error: (err) => {
