@@ -1,17 +1,17 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray } from '@angular/forms';
 
 import { ClientService } from '../../../services/client.service';
-import { ClientsWithBankDetails } from '../../../models/clients';
-import { ButtonModule, FormModule } from '@coreui/angular';
+import { ButtonCloseDirective, ButtonModule, FormModule, ToastBodyComponent, ToastComponent } from '@coreui/angular';
 import { DocsService } from '../../../services/docs.service';
 import { environment } from '../../../../environments/environment';
+import { set } from 'lodash-es';
 
 @Component({
   selector: 'app-manage-docs',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonModule, FormModule],
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule, FormModule, ToastComponent, ToastBodyComponent, ButtonCloseDirective],
   templateUrl: './manage-docs.component.html',
   styleUrls: ['./manage-docs.component.scss']
 })
@@ -22,6 +22,7 @@ export class ManageDocsComponent {
   fb = inject(FormBuilder);
   applicationLink: string = '';
   testCertLink: string = '';
+  showToaster = false;
   form: FormGroup = this.fb.group({
     selectedClient: [''],
     applicantName: [''],
@@ -76,6 +77,8 @@ export class ManageDocsComponent {
           error: (err) => {
             console.error('Failed to load client details', err);
             this.form.reset();
+            this.applicationLink = '';
+            this.testCertLink = '';
           }
         });
       }
@@ -98,6 +101,10 @@ export class ManageDocsComponent {
         {
           this.applicationLink = environment.baseUrl + '/applications/' + res?.applicationFileName;
           this.testCertLink = environment.baseUrl + '/applications/' + res?.testCertificateFileName;
+          this.showToaster = true;
+          setTimeout(() => {
+            this.showToaster = false;
+          }, 2500);
         }
       },
       error: (err) => {
