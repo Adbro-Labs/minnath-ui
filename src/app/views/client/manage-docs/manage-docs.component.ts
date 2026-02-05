@@ -75,6 +75,7 @@ export class ManageDocsComponent {
           },
           error: (err) => {
             console.error('Failed to load client details', err);
+            this.form.reset();
           }
         });
       }
