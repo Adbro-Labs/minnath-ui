@@ -1,81 +1,135 @@
 <c-card class="mb-4">
-      <c-card-header>
-        <div class="div" style="display: flex; justify-content: space-between">
-            <span>Items</span>
-            <button cButton (click)="generateQuote()" [disabled]="quoteList.length < 1 || disableGenerate">Generate Quote</button>
+  <c-card-header>
+    <div class="div" style="display: flex; justify-content: space-between">
+      <span>Items</span>
+      <button
+        cButton
+        (click)="generateQuote()"
+        [disabled]="quoteList.length < 1 || disableGenerate"
+      >
+        Generate Quote
+      </button>
+    </div>
+  </c-card-header>
+  <c-card-body>
+    <div class="row" [formGroup]="itemForm">
+      <div class="col-md-7 col-xs-12">
+        <div class="mb-8">
+          <label cLabel>Item</label>
+          <input
+            aria-label="lg input example"
+            cFormControl
+            placeholder="Type item name"
+            sizing="lg"
+            formControlName="itemName"
+            type="text"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            [autoActiveFirstOption]="true"
+          >
+            @for (option of itemList; track option.itemCode) {
+              <mat-option [value]="option.itemName">{{
+                option.itemName
+              }}</mat-option>
+            }
+          </mat-autocomplete>
         </div>
-      </c-card-header>
-      <c-card-body>
-        <div class="row" [formGroup]="itemForm">
-            <div class="col-md-7 col-xs-12">
-                <div class="mb-8">
-                    <label cLabel>Item</label>
-                    <input aria-label="lg input example"
-                        cFormControl
-                        placeholder="Type item name"
-                        sizing="lg"
-                        formControlName="itemName"
-                        type="text"
-                        [matAutocomplete]="auto"
-                    >    
-                    <mat-autocomplete #auto="matAutocomplete" [autoActiveFirstOption]="true">
-                        @for (option of itemList; track option.itemCode) {
-                            <mat-option [value]="option.itemName">{{option.itemName}}</mat-option>
-                        }
-                    </mat-autocomplete>
-                </div>
-            </div>
-            <div class="col-md-2 col-xs-12">
-                <div class="mb-1">
-                    <label cLabel for="exampleFormControlInput1">Qty</label>
-                    <input cFormControl
-                            placeholder="Qty"
-                            type="text"
-                            formControlName="quantity"
-                    />
-                </div>
-            </div>
-            <div class="col-md-2 col-xs-12" style="align-items: center;display: flex; margin-top: 30px;">
-                <button cButton color="primary" (click)="addItem()">Add</button> &nbsp;
-                @if(!isRecording) {<button cButton color="primary" (click)="startRecording()">Record</button>}
-            </div>
+      </div>
+      <div class="col-md-2 col-xs-12">
+        <div class="mb-1">
+          <label cLabel for="exampleFormControlInput1">Qty</label>
+          <input
+            cFormControl
+            placeholder="Qty"
+            type="text"
+            formControlName="quantity"
+          />
         </div>
-        <div class="row">
-                    <table [hover]="true" cTable>
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Item</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        @for (option of quoteList; track option; let i = $index) {
-                           <tr>
-                                <td scope="col">{{i+1}}</td>
-                                <td scope="col">{{option.itemName}}</td>
-                                <td scope="col">{{option.quantity}}</td>
-                                <td scope="col">
-                                    <button cButton color="secondary" shape="rounded-pill" (click)="deleteItem(i)">Delete</button>
-                                </td>
-                           </tr> 
-                        }
-                    </tbody>
-                </table>
-        </div>
-      </c-card-body>
+      </div>
+      <div
+        class="col-md-2 col-xs-12"
+        style="align-items: center; display: flex; margin-top: 30px"
+      >
+        @if (!editMode) {
+          <button cButton color="primary" (click)="addItem()">Add</button>
+          &nbsp;
+        } @else {
+          <button cButton color="primary" (click)="updateItem()">Update</button>
+          &nbsp;
+          <button cButton color="primary" (click)="cancelEdit()">Cancel</button>
+          &nbsp;
+        }
+        @if (!isRecording) {
+          <button cButton color="primary" (click)="startRecording()">
+            Record
+          </button>
+        }
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <table [hover]="true" cTable>
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Item</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (option of quoteList; track option; let i = $index) {
+              <tr>
+                <td scope="col">{{ i + 1 }}</td>
+                <td scope="col">{{ option.itemName }}</td>
+                <td scope="col">{{ option.quantity }}</td>
+                <td scope="col">
+                  <button
+                    cButton
+                    color="secondary"
+                    shape="rounded-pill"
+                    (click)="editItem(option, i)"
+                  >
+                    Edit
+                  </button>
+                  &nbsp;
+                  <button
+                    cButton
+                    color="secondary"
+                    shape="rounded-pill"
+                    (click)="deleteItem(i)"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </c-card-body>
 </c-card>
 
-@if(isRecording || processing) {<div class="overlay">
+@if (isRecording || processing) {
+  <div class="overlay">
     <div class="card">
-        @if(isRecording) {<div class="meter-wrapper">
-            <div class="bar-container" title="Mic level">
-                <div class="bar" [style.height.%]="level"></div>
-            </div>
-            <div class="label">{{ level }}%</div>
-            <button cButton color="primary" (click)="stopRecording()">Stop</button>
-        </div>}
-        @if(processing){<div class="loading-text">Processing...</div>}
+      @if (isRecording) {
+        <div class="meter-wrapper">
+          <div class="bar-container" title="Mic level">
+            <div class="bar" [style.height.%]="level"></div>
+          </div>
+          <div class="label">{{ level }}%</div>
+          <button cButton color="primary" (click)="stopRecording()">
+            Stop
+          </button>
+        </div>
+      }
+      @if (processing) {
+        <div class="loading-text">Processing...</div>
+      }
     </div>
-</div>}
+  </div>
+}

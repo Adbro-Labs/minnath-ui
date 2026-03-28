@@ -1,7 +1,9 @@
 <c-card class="mb-4">
   <c-card-header class="d-flex justify-content-between align-items-center">
     <strong>Items & Variants</strong>
-    <button cButton color="primary" (click)="showAddItemView()">+ Add Item</button>
+    <button cButton color="primary" (click)="showAddItemView()">
+      + Add Item
+    </button>
   </c-card-header>
 
   <c-card-body>
@@ -27,11 +29,29 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of items; index as i">
-            <td>{{ i + 1 }}</td>
+            <td>{{ i + 1 + index * 15 }}</td>
             <td>{{ item.itemName }}</td>
             <td>{{ item.description }}</td>
           </tr>
         </tbody>
+        <c-pagination aria-label="Page navigation example">
+          <li
+            cPageItem
+            [disabled]="index < 1"
+            (click)="paginate(-1)"
+            style="cursor: pointer"
+          >
+            <span cPageLink>Previous</span>
+          </li>
+          <li
+            cPageItem
+            (click)="paginate(1)"
+            style="cursor: pointer"
+            [disabled]="items.length < 15"
+          >
+            <a cPageLink>Next</a>
+          </li>
+        </c-pagination>
       </table>
     </div>
   </c-card-body>

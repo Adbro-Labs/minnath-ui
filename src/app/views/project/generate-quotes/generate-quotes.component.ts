@@ -42,7 +42,7 @@ export class GenerateQuoteComponent implements OnInit, AfterViewInit {
 
 
   loadClients() {
-    this.clientService.getAllClients().subscribe({
+    this.clientService.getAllClients(0).subscribe({
       next: (response) => {
         this.clientList = response;
       }

@@ -1,13 +1,27 @@
 <h3>Manage Documentation</h3>
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="manage-docs-form">
   <div class="row">
-    <div class="col-md-4">
-      <label cLabel for="client-select">Select Client</label>
-      <select cSelect id="client-select" formControlName="selectedClient">
-        <option *ngFor="let client of clients" [value]="client.clientCode">
-          {{ client.clientName }}
-        </option>
-      </select>
+    <div class="col-md-4 mb-8">
+      <label cLabel>Client</label>
+      <input
+        aria-label="lg input example"
+        cFormControl
+        placeholder="Type client name"
+        sizing="lg"
+        [formControl]="searchControl"
+        type="text"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        [autoActiveFirstOption]="true"
+        [displayWith]="displayFn"
+        (optionSelected)="onClientSelected($event.option.value)"
+      >
+        @for (option of clients; track option.clientCode) {
+          <mat-option [value]="option">{{ option.clientName }}</mat-option>
+        }
+      </mat-autocomplete>
     </div>
     <div class="col-md-4" *ngIf="applicationLink">
       <!-- add button to download application link -->

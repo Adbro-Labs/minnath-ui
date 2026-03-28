@@ -22,6 +22,8 @@ export class QuoteListComponent implements OnInit {
   quoteCode = "";
   service = inject(ItemService);
   fb = inject(FormBuilder);
+  editMode = false;
+  itemIndex!: number;
   @Input() clientCode!: string;
 
 
@@ -223,10 +225,30 @@ export class QuoteListComponent implements OnInit {
      cancelAnimationFrame(this.rafId);
      cancelAnimationFrame(this.raf);
      if (this.audioContext) this.audioContext.close();
+   }
+  
+  editItem(item: any, index: number) {
+    if (!item) {
+      return;
+    }
+    this.itemForm.patchValue(item);
+    this.editMode = true;
+    this.itemIndex = index;
   }
 
 
- 
+  updateItem() {
+    if (this.itemIndex !== undefined && this.itemForm.valid) { 
+      this.quoteList[this.itemIndex] = this.itemForm.value;
+      this.service.saveQuotes(this.clientCode, this.quoteList);
+      this.editMode = false;
+      this.itemForm.reset();
+    }
+  }
+  cancelEdit() {
+    this.editMode = false;
+    this.itemForm.reset();
+  }
 
 
 }

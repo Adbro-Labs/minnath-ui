@@ -1,14 +1,15 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
-import { ColComponent, CardComponent, CardHeaderComponent, CardBodyComponent, TableDirective, ButtonModule } from '@coreui/angular';
+import { ColComponent, CardComponent, CardHeaderComponent, CardBodyComponent, TableDirective, ButtonModule, PaginationComponent, PageLinkDirective, PageItemDirective } from '@coreui/angular';
 import { AddClientComponent } from "../add-client/add-client.component";
-import { ClientService } from 'src/app/services/client.service';
-import { Clients, ClientsWithBankDetails } from 'src/app/models/clients';
+import { ClientService } from '../../../services/client.service';
+import { ClientsWithBankDetails } from '../../../models/clients';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-client',
   standalone: true,
-  imports: [CardComponent, ColComponent, CardHeaderComponent, CardBodyComponent, TableDirective, ButtonModule, AddClientComponent],
+  imports: [CardComponent, ColComponent, CardHeaderComponent, CardBodyComponent, TableDirective,
+    ButtonModule, AddClientComponent, PaginationComponent, PageItemDirective, PageLinkDirective],
   templateUrl: './list-client.component.html',
   styleUrl: './list-client.component.scss'
 })
@@ -17,13 +18,14 @@ export class ListClientComponent implements OnInit {
   clientService = inject(ClientService);
   clientList: ClientsWithBankDetails[] = [];
   router = inject(Router);
+  index = 0;
 
   ngOnInit(): void {
     this.getAllClients();
   }
 
   getAllClients() {
-    this.clientService.getAllClients().subscribe({
+    this.clientService.getAllClients(this.index).subscribe({
       next: (response) => {
         this.clientList = response;
       },
@@ -47,5 +49,12 @@ export class ListClientComponent implements OnInit {
   } 
   logWork(clientDetails: any) {
     this.router.navigate(['/work-log', clientDetails.clientCode]);
+  }
+    paginate(operation: number) {
+    const check = this.index + operation;
+    if (check >= 0) {
+      this.index = check;
+      this.getAllClients();
+    }
   }
 }

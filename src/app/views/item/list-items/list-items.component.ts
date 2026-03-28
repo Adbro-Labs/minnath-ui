@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { CardModule, ButtonModule, TableModule, GridModule, SpinnerModule } from '@coreui/angular';
+import { CardModule, ButtonModule, TableModule, GridModule, SpinnerModule, PageItemDirective, PageLinkDirective, PaginationComponent } from '@coreui/angular';
 import { ItemService } from '../../../services/item.service';
 import { AddItemComponent } from "../add-item/add-item.component";
 
@@ -13,7 +13,7 @@ import { AddItemComponent } from "../add-item/add-item.component";
     ButtonModule,
     TableModule,
     SpinnerModule,
-    GridModule],
+    GridModule, PaginationComponent, PageItemDirective, PageLinkDirective],
   templateUrl: './list-items.component.html',
   styleUrl: './list-items.component.scss'
 })
@@ -55,6 +55,14 @@ export class ListItemsComponent implements OnInit {
   showAddItemView() {
     if (this.addItem) {
       this.addItem.visible = true;
+    }
+  }
+
+  paginate(operation: number) {
+    const check = this.index + operation;
+    if (check >= 0) {
+      this.index = check;
+      this.loadItems();
     }
   }
 }

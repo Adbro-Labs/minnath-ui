@@ -1,10 +1,27 @@
 <div class="client-work-log">
   <c-container>
+    @if (clientDetails?.clientName) {
+      <div>
+        <h4>
+          <i class="cil-clipboard me-2"></i>
+          {{ clientDetails?.clientName }} - {{ clientDetails?.locationName }}
+        </h4>
+      </div>
+    }
     <!-- Quotes Section -->
-     <div class="document-upload-container" (click)="showUploader()" style="cursor: pointer; background: #fff;border-radius: 8px;margin-bottom: 6px;">
-      <label 
-        style="cursor: pointer;"
-        for="fileUpload" 
+    <div
+      class="document-upload-container"
+      (click)="showUploader()"
+      style="
+        cursor: pointer;
+        background: #fff;
+        border-radius: 8px;
+        margin-bottom: 6px;
+      "
+    >
+      <label
+        style="cursor: pointer"
+        for="fileUpload"
         class="upload-box d-flex flex-column align-items-center justify-content-center"
       >
         <i class="cil-file fs-2 mb-2"></i>
@@ -34,14 +51,16 @@
                 <tbody>
                   @for (quote of quotes; track quote.id) {
                     <tr>
-                      <td><strong>{{ quote.quoteNumber }}</strong></td>
-                      <td>{{ quote.quotecreatedat | date: 'dd-MM-yyyy' }}</td>
                       <td>
-                        <button 
-                          cButton 
-                          variant="outline" 
-                          color="primary" 
-                          size="sm" 
+                        <strong>{{ quote.quoteNumber }}</strong>
+                      </td>
+                      <td>{{ quote.quotecreatedat | date: "dd-MM-yyyy" }}</td>
+                      <td>
+                        <button
+                          cButton
+                          variant="outline"
+                          color="primary"
+                          size="sm"
                           class="me-2"
                           (click)="previewQuote(quote)"
                         >
@@ -91,14 +110,16 @@
                 <tbody>
                   @for (invoice of invoiceList; track invoice.attachmentCode) {
                     <tr>
-                      <td><strong>{{ invoice.invoiceCode }}</strong></td>
+                      <td>
+                        <strong>{{ invoice.invoiceCode }}</strong>
+                      </td>
                       <td>{{ formatCurrency(invoice.amount) }}</td>
                       <td>{{ formatDate(invoice.invoiceDate) }}</td>
                       <td>
-                        <button 
-                          cButton 
-                          variant="outline" 
-                          color="primary" 
+                        <button
+                          cButton
+                          variant="outline"
+                          color="primary"
                           size="sm"
                           (click)="downloadInvoice(invoice)"
                         >
@@ -131,17 +152,22 @@
               <h5 class="mb-3">Images</h5>
               <div class="media-grid">
                 @for (item of mediaItems; track item.attachmentCode) {
-                  @if (item.attachmentType === 'images') {
-                    <div class="media-item" (click)="openLightbox(item, 'image')">
+                  @if (item.attachmentType === "images") {
+                    <div
+                      class="media-item"
+                      (click)="openLightbox(item, 'image')"
+                    >
                       <div class="position-relative">
-                        <img 
-                          [src]="item.fileName" 
+                        <img
+                          [src]="item.fileName"
                           [alt]="item.description"
                           class="img-fluid"
-                          style="width: 100%; height: 120px; object-fit: cover;"
+                          style="width: 100%; height: 120px; object-fit: cover"
                           loading="lazy"
                         />
-                        <div class="position-absolute bottom-0 start-0 end-0 bg-dark bg-opacity-75 text-white p-2">
+                        <div
+                          class="position-absolute bottom-0 start-0 end-0 bg-dark bg-opacity-75 text-white p-2"
+                        >
                           <small class="d-block">{{ item.description }}</small>
                           <!-- <button 
                             cButton 
@@ -166,24 +192,38 @@
               <h5 class="mb-3">Videos</h5>
               <div class="media-grid">
                 @for (item of mediaItems; track item.attachmentCode) {
-                  @if (item.attachmentType === 'videos') {
-                    <div class="media-item" (click)="openLightbox(item, 'video')">
+                  @if (item.attachmentType === "videos") {
+                    <div
+                      class="media-item"
+                      (click)="openLightbox(item, 'video')"
+                    >
                       <div class="position-relative">
-                        <div class="video-thumbnail d-flex align-items-center justify-content-center">
-                          <video 
+                        <div
+                          class="video-thumbnail d-flex align-items-center justify-content-center"
+                        >
+                          <video
                             [src]="item.fileName"
                             class="img-fluid"
-                            style="width: 100%; height: 120px; object-fit: cover;"
+                            style="
+                              width: 100%;
+                              height: 120px;
+                              object-fit: cover;
+                            "
                             loading="lazy"
                             controls
                             playsinline
                           ></video>
                           <div class="position-absolute">
-                            <i class="cil-media-play text-white" style="font-size: 2rem;"></i>
+                            <i
+                              class="cil-media-play text-white"
+                              style="font-size: 2rem"
+                            ></i>
                           </div>
                         </div>
                         <div class="p-2">
-                          <small class="d-block mb-2">{{ item.description }}</small>
+                          <small class="d-block mb-2">{{
+                            item.description
+                          }}</small>
                           <!-- <button 
                             cButton 
                             size="sm" 
@@ -204,16 +244,21 @@
             <!-- Documents -->
             <div>
               <h5 class="mb-3">Documents</h5>
-              <div style="display: flex;gap: 5px;flex-wrap: wrap;">
+              <div style="display: flex; gap: 5px; flex-wrap: wrap">
                 @for (item of mediaItems; track item.attachmentCode) {
-                @if (item.attachmentType === 'documents') {
-                  <div class="document-item"  (click)="openLightbox(item, 'document')">
-                    <img src="/assets/images/doc-icon.png" width="150"/>
-                    <div class="flex-grow-1">
-                      <div class="fw-semibold">{{ item.description }}</div>
-                      <small class="text-muted">{{ item.fileType }} • {{ item.size }}</small>
-                    </div>
-                    <!-- <button 
+                  @if (item.attachmentType === "documents") {
+                    <div
+                      class="document-item"
+                      (click)="openLightbox(item, 'document')"
+                    >
+                      <img src="/assets/images/doc-icon.png" width="150" />
+                      <div class="flex-grow-1">
+                        <div class="fw-semibold">{{ item.description }}</div>
+                        <small class="text-muted"
+                          >{{ item.fileType }} • {{ item.size }}</small
+                        >
+                      </div>
+                      <!-- <button 
                       cButton 
                       variant="outline" 
                       color="primary" 
@@ -222,9 +267,9 @@
                     >
                       <i class="cil-cloud-download me-1"></i>Download
                     </button> -->
-                  </div>
+                    </div>
+                  }
                 }
-              }
               </div>
             </div>
           </c-card-body>
@@ -236,43 +281,54 @@
 
 <app-upload-files #uploader (updated)="getDetails()"></app-upload-files>
 
-
-<div 
-  class="lightbox-overlay" 
-  *ngIf="lightboxItem" 
+<div
+  class="lightbox-overlay"
+  *ngIf="lightboxItem"
   (click)="closeLightbox()"
   style="
     position: fixed;
-    top:0; left:0; right:0; bottom:0;
-    background: rgba(0,0,0,0.8);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    z-index:1050;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
   "
 >
-  <div style="position: relative; max-width: 95%; max-height: 95%;">
-    <button 
+  <div style="position: relative; max-width: 95%; max-height: 95%">
+    <button
       (click)="closeLightbox()"
-      style="position: absolute; top:10px; right:10px; z-index:10; font-size: 1.5rem; color:white; background:none; border:none;"
+      style="
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 10;
+        font-size: 1.5rem;
+        color: white;
+        background: none;
+        border: none;
+      "
     >
       ✖
     </button>
 
     <!-- Video or Image -->
     <ng-container *ngIf="lightboxItem.type === 'video'">
-      <video 
+      <video
         [src]="lightboxItem.fileName"
         controls
         autoplay
-        style="width: 100%; height: auto; max-height: 95vh; object-fit: contain;"
+        style="width: 100%; height: auto; max-height: 95vh; object-fit: contain"
       ></video>
     </ng-container>
 
     <ng-container *ngIf="lightboxItem.type === 'image'">
-      <img 
+      <img
         [src]="lightboxItem.fileName"
-        style="width: 100%; height: auto; max-height: 95vh; object-fit: contain;"
+        style="width: 100%; height: auto; max-height: 95vh; object-fit: contain"
       />
     </ng-container>
   </div>

@@ -41,7 +41,7 @@ export class GeneratedQuotesComponent implements OnInit {
 
 
   loadClients() {
-    this.clientService.getAllClients().subscribe({
+    this.clientService.getAllClients(this.index).subscribe({
       next: (response) => {
         this.clientList = response;
       }

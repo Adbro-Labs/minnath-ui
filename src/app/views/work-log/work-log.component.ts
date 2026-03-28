@@ -20,6 +20,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LpoService } from '../../services/lpo.service';
 import { ItemService } from '../../services/item.service';
 import { environment } from '../../../environments/environment';
+import { DocsService } from '../../services/docs.service';
+import { ClientService } from '../../services/client.service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export interface Quote {
   id: string;
@@ -67,6 +71,9 @@ export interface Note {
     TableDirective,
     ButtonDirective,
     UploadFilesComponent,
+    MatAutocompleteModule,
+    FormsModule,
+    ReactiveFormsModule,
     RowComponent,
     ColComponent,
     ContainerComponent],
@@ -79,9 +86,11 @@ export class WorkLogComponent implements OnInit  {
   route = inject(ActivatedRoute);
   service = inject(LpoService);
   quote = inject(ItemService);
+  clientService = inject(ClientService);
   invoiceList: any[] = [];
   clientCode: string = "";
   documents = [];
+  clientDetails: any = {};
 
   showUploader() {
     if (this.uploader) {
@@ -102,6 +111,14 @@ export class WorkLogComponent implements OnInit  {
     });
   }
 
+  getClientDetails() {
+    this.clientService.getClientDetails(this.clientCode).subscribe({
+      next: (response: any) => {
+        this.clientDetails = response;
+      }
+    })
+  }
+
   getQuotes(index = 0) {
     this.quote.getAllQuotes(this.clientCode, index).subscribe({
       next: (response: any) => {
@@ -116,6 +133,7 @@ export class WorkLogComponent implements OnInit  {
         if (response["clientCode"]) {
           this.clientCode = response["clientCode"];
           this.getDetails();
+          this.getClientDetails();
         }
       }
     })

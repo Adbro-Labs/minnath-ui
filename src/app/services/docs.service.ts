@@ -18,7 +18,7 @@ export class DocsService {
     const url = environment.baseUrl + "/docs";
     return this.http.post<any>(url, body);
   }
-  getclientDetails = (clientId: number) => {
+  getclientDetails = (clientId: string) => {
     const url = environment.baseUrl + "/docs?clientCode=" + clientId;
     return this.http.get<any>(url);
   }

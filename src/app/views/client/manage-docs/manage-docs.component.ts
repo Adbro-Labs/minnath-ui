@@ -1,17 +1,20 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, FormsModule } from '@angular/forms';
 
 import { ClientService } from '../../../services/client.service';
 import { ButtonCloseDirective, ButtonModule, FormModule, ToastBodyComponent, ToastComponent } from '@coreui/angular';
 import { DocsService } from '../../../services/docs.service';
 import { environment } from '../../../../environments/environment';
-import { set } from 'lodash-es';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-manage-docs',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonModule, FormModule, ToastComponent, ToastBodyComponent, ButtonCloseDirective],
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule, FormModule,
+    MatAutocompleteModule, FormsModule,
+    ToastComponent, ToastBodyComponent, ButtonCloseDirective],
   templateUrl: './manage-docs.component.html',
   styleUrls: ['./manage-docs.component.scss']
 })
@@ -59,12 +62,20 @@ export class ManageDocsComponent {
     declarationPlace: [''],
     items: this.fb.array([])
   });
+  searchControl = this.fb.control('');
 
   ngOnInit(): void {
     this.loadClients();
     // initialize with one empty row
     this.addRow();
+    this.searchControl.valueChanges.pipe(debounceTime(300)).subscribe(value => {
+      if (typeof value === 'string') {
+        console.log('Search term changed:', value, this.searchControl.value);
+        this.loadClients();
+      }
+    });
     this.form.get('selectedClient')?.valueChanges.subscribe(clientCode => {
+      console.log('Selected client code:', clientCode);
       if (clientCode) {
         this.docsService.getclientDetails(clientCode).subscribe({
           next: (res) => {
@@ -76,17 +87,27 @@ export class ManageDocsComponent {
           },
           error: (err) => {
             console.error('Failed to load client details', err);
-            this.form.reset();
-            this.applicationLink = '';
-            this.testCertLink = '';
+            if (err.status === 404 && this.form.get('applicantName')?.value) {
+              this.form.reset();
+              this.applicationLink = '';
+              this.testCertLink = '';
+            }
           }
         });
       }
     });
   }
 
+  displayFn(user: any): string {
+  return user && user.clientName ? user.clientName : '';
+}
+
+  onClientSelected(clientDetails: any) { 
+    this.form.get('selectedClient')?.setValue(clientDetails.clientCode);
+  }
+
   loadClients() {
-    this.clientService.getAllClients().subscribe({
+    this.clientService.getAllClients(0, (this.searchControl.value || "")).subscribe({
       next: (res) => (this.clients = res),
       error: (err) => console.error('Failed to load clients', err)
     });
