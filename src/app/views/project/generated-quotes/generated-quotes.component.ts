@@ -6,12 +6,14 @@ import { DatePipe } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
 import { ClientService } from '../../../services/client.service';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-generated-quotes',
   standalone: true,
-  imports: [TableModule, CardBodyComponent, CardHeaderComponent, CardFooterComponent, CardComponent, ColComponent,
+  imports: [TableModule, CardBodyComponent, CardHeaderComponent, CardFooterComponent, CardComponent,
+    ColComponent, MatAutocompleteModule, ReactiveFormsModule,
     ButtonsComponent, ButtonDirective, DatePipe, FormsModule, FormModule],
   templateUrl: './generated-quotes.component.html',
   styleUrl: './generated-quotes.component.scss'
@@ -26,10 +28,23 @@ export class GeneratedQuotesComponent implements OnInit {
   quoteList: any[] = [];
   clientList: any[] = [];
   clientCode: string = "";
+  searchControl = new FormControl('');
 
   ngOnInit(): void {
     this.loadClients();
+    this.searchControl.valueChanges.subscribe(value => {
+      if (typeof value === 'string') {
+        this.loadClients();
+      }
+    });
   }
+  onClientSelected(clientDetails: any) { 
+    this.clientCode = clientDetails.clientCode;
+    this.getQuotes();
+  }
+    displayFn(user: any): string {
+  return user && user.clientName ? user.clientName : '';
+}
 
   getQuotes() {
     this.itemService.getAllQuotes(this.clientCode, this.index).subscribe({
@@ -41,7 +56,7 @@ export class GeneratedQuotesComponent implements OnInit {
 
 
   loadClients() {
-    this.clientService.getAllClients(this.index).subscribe({
+    this.clientService.getAllClients(this.index, (this.searchControl.value || "")).subscribe({
       next: (response) => {
         this.clientList = response;
       }

@@ -1,54 +1,82 @@
 <c-card class="mb-4">
-      <c-card-body>
-        <div class="row">
-            <div class="col">
-                <div class="mb-6">
-                    <label cLabel>Client</label>
-                    <select cSelect [(ngModel)]="clientCode" (change)="getQuotes()">
-                        @for(item of clientList; track item) {
-                            <option [value]="item?.clientCode">{{item?.clientName}}</option>
-                        }
-                    </select>
-                </div>
-            </div>
+  <c-card-body>
+    <div class="row">
+      <div class="col">
+        <div class="mb-6">
+          <label cLabel>Client</label>
+          <input
+            aria-label="lg input example"
+            cFormControl
+            placeholder="Type client name"
+            sizing="lg"
+            [formControl]="searchControl"
+            type="text"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            [autoActiveFirstOption]="true"
+            [displayWith]="displayFn"
+            (optionSelected)="onClientSelected($event.option.value)"
+          >
+            @for (option of clientList; track option.clientCode) {
+              <mat-option [value]="option">{{ option.clientName }}</mat-option>
+            }
+          </mat-autocomplete>
         </div>
-      </c-card-body>
+      </div>
+    </div>
+  </c-card-body>
 </c-card>
-<c-col xs="12" style="margin-top: 10px;">
-    <c-card class="mb-4">
-      <c-card-header>
-        <div style="display: flex; justify-content: space-between;">
-            <strong>Generated Quotes</strong>
-        </div>
-      </c-card-header>
-      <c-card-body>
-        <div class="row">
-            <table [hover]="true" cTable>
-            <thead>
+<c-col xs="12" style="margin-top: 10px">
+  <c-card class="mb-4">
+    <c-card-header>
+      <div style="display: flex; justify-content: space-between">
+        <strong>Generated Quotes</strong>
+      </div>
+    </c-card-header>
+    <c-card-body>
+      <div class="row">
+        <table [hover]="true" cTable>
+          <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Date</th>
-                <th scope="col">Code</th>
-                <th scope="col">Action</th>
+              <th scope="col">#</th>
+              <th scope="col">Date</th>
+              <th scope="col">Code</th>
+              <th scope="col">Action</th>
             </tr>
-            </thead>
-            <tbody>
-               @for(item of quoteList; track item) {
-                    <tr>
-                        <td>{{$index+1}}</td> 
-                        <td>{{item.quotecreatedat | date: 'dd-MM-yyyy'}}</td>
-                        <td>{{item.quoteNumber}}</td>
-                        <td>
-                            <div style="display: flex; gap: 3px;">
-                                <button cButton color="secondary" shape="rounded-pill" (click)="viewQuote(item)">View</button>
-                                 <button cButton color="secondary" shape="rounded-pill" (click)="editQuote(item)">Edit</button>
-                            </div>                            
-                        </td>
-                    </tr>
-                }
-            </tbody>
+          </thead>
+          <tbody>
+            @for (item of quoteList; track item) {
+              <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ item.quotecreatedat | date: "dd-MM-yyyy" }}</td>
+                <td>{{ item.quoteNumber }}</td>
+                <td>
+                  <div style="display: flex; gap: 3px">
+                    <button
+                      cButton
+                      color="secondary"
+                      shape="rounded-pill"
+                      (click)="viewQuote(item)"
+                    >
+                      View
+                    </button>
+                    <button
+                      cButton
+                      color="secondary"
+                      shape="rounded-pill"
+                      (click)="editQuote(item)"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
         </table>
-        </div>
-      </c-card-body>
-    </c-card>
+      </div>
+    </c-card-body>
+  </c-card>
 </c-col>

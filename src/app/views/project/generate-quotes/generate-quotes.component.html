@@ -1,19 +1,36 @@
 <c-card class="mb-4">
-      <c-card-body>
-        <div class="row">
-            <div class="col">
-                <div class="mb-6">
-                    <label cLabel>Client</label>
-                    <select cSelect [(ngModel)]="clientCode" (change)="getProjectByClient()" [disabled]="disableClient">
-                        @for(item of clientList; track item) {
-                            <option [value]="item?.clientCode">{{item?.clientName}}</option>
-                        }
-                    </select>
-                </div>
-            </div>
+  <c-card-body>
+    <div class="row">
+      <div class="col">
+        <div class="mb-6">
+          <label cLabel>Client</label>
+          <input
+            aria-label="lg input example"
+            cFormControl
+            placeholder="Type client name"
+            sizing="lg"
+            [formControl]="searchControl"
+            type="text"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            [autoActiveFirstOption]="true"
+            [displayWith]="displayFn"
+            (optionSelected)="onClientSelected($event.option.value)"
+          >
+            @for (option of clientList; track option.clientCode) {
+              <mat-option [value]="option">{{ option.clientName }}</mat-option>
+            }
+          </mat-autocomplete>
         </div>
-      </c-card-body>
+      </div>
+    </div>
+  </c-card-body>
 </c-card>
 
-    <app-quote-list [clientCode]="clientCode" #quoteList [hidden]="!clientCode"></app-quote-list>
-
+<app-quote-list
+  [clientCode]="clientCode"
+  #quoteList
+  [hidden]="!clientCode"
+></app-quote-list>
