@@ -39,6 +39,16 @@
         >Download Test Certificate</a
       >
     </div>
+    <div class="col-md-4" *ngIf="serviceRequestLink">
+      <!-- add button to download service request link -->
+      <a
+        [href]="serviceRequestLink"
+        class="btn btn-primary"
+        download
+        target="_blank"
+        >Download Service Request</a
+      >
+    </div>
   </div>
   <hr />
 
@@ -305,6 +315,74 @@
               type="text"
               placeholder="Aadhaar No"
               formControlName="aadhaarNo"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-header">Service Request Details</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="useOfConnection">Consumer Number</label>
+            <input
+              cFormControl
+              id="useOfConnection"
+              type="text"
+              placeholder="Consumer Number"
+              formControlName="consumerNumber"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="useOfConnection">Purpose</label>
+            <input
+              cFormControl
+              id="useOfConnection"
+              type="text"
+              placeholder="Purpose"
+              formControlName="purpose"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="connectedLoad">Tarrif</label>
+            <input
+              cFormControl
+              id="tarrif"
+              type="text"
+              placeholder="Tarrif"
+              formControlName="tarrif"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="aadhaarNo">connected Load Kw</label>
+            <input
+              cFormControl
+              id="aadhaarNo"
+              type="text"
+              placeholder="connected Load Kw"
+              formControlName="connectedLoadKw"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label cLabel for="aadhaarNo">connected Load Kva</label>
+            <input
+              cFormControl
+              id="aadhaarNo"
+              type="text"
+              placeholder="connected Load Kva"
+              formControlName="connectedLoadKva"
             />
           </div>
         </div>
