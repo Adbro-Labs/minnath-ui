@@ -49,7 +49,7 @@
           <tbody>
             @for (item of quoteList; track item) {
               <tr>
-                <td>{{ $index + 1 }}</td>
+                <td>{{ $index + 1 + index * pageSize }}</td>
                 <td>{{ item.quotecreatedat | date: "dd-MM-yyyy" }}</td>
                 <td>{{ item.quoteNumber }}</td>
                 <td>
@@ -76,6 +76,24 @@
             }
           </tbody>
         </table>
+        <c-pagination aria-label="Quote page navigation">
+          <li
+            cPageItem
+            [disabled]="index < 1"
+            (click)="paginate(-1)"
+            style="cursor: pointer"
+          >
+            <span cPageLink>Previous</span>
+          </li>
+          <li
+            cPageItem
+            (click)="paginate(1)"
+            style="cursor: pointer"
+            [disabled]="quoteList.length < pageSize"
+          >
+            <a cPageLink>Next</a>
+          </li>
+        </c-pagination>
       </div>
     </c-card-body>
   </c-card>

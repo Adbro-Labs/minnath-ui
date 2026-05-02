@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ButtonDirective, CardBodyComponent, CardComponent, CardFooterComponent, CardHeaderComponent, ColComponent, FormModule, TableModule } from '@coreui/angular';
+import { ButtonDirective, CardBodyComponent, CardComponent, CardFooterComponent, CardHeaderComponent, ColComponent, FormModule, PageItemDirective, PageLinkDirective, PaginationComponent, TableModule } from '@coreui/angular';
 import { ButtonsComponent } from '../../buttons/buttons/buttons.component';
 import { ItemService } from '../../../services/item.service';
 import { DatePipe } from '@angular/common';
@@ -14,7 +14,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
   standalone: true,
   imports: [TableModule, CardBodyComponent, CardHeaderComponent, CardFooterComponent, CardComponent,
     ColComponent, MatAutocompleteModule, ReactiveFormsModule,
-    ButtonsComponent, ButtonDirective, DatePipe, FormsModule, FormModule],
+    ButtonsComponent, ButtonDirective, DatePipe, FormsModule, FormModule,
+    PaginationComponent, PageItemDirective, PageLinkDirective],
   templateUrl: './generated-quotes.component.html',
   styleUrl: './generated-quotes.component.scss'
 })
@@ -24,6 +25,7 @@ export class GeneratedQuotesComponent implements OnInit {
   router = inject(Router);
   clientService = inject(ClientService);
   index = 0;
+  readonly pageSize = 15;
 
   quoteList: any[] = [];
   clientList: any[] = [];
@@ -40,6 +42,7 @@ export class GeneratedQuotesComponent implements OnInit {
   }
   onClientSelected(clientDetails: any) { 
     this.clientCode = clientDetails.clientCode;
+    this.index = 0;
     this.getQuotes();
   }
     displayFn(user: any): string {
@@ -49,9 +52,17 @@ export class GeneratedQuotesComponent implements OnInit {
   getQuotes() {
     this.itemService.getAllQuotes(this.clientCode, this.index).subscribe({
       next: (response: any) => {
-        this.quoteList = response?.data;
+        this.quoteList = response?.data || [];
       }
     })
+  }
+
+  paginate(operation: number) {
+    const nextIndex = this.index + operation;
+    if (nextIndex >= 0) {
+      this.index = nextIndex;
+      this.getQuotes();
+    }
   }
 
 
